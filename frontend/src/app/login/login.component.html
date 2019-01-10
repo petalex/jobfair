@@ -1,0 +1,32 @@
+<h3>Enter your data:</h3>
+<form>
+  <table>
+    <tr>
+      <td>Username:</td>
+      <td>
+        <input type='text' [ngModel]='username' name='username'>
+      </td>
+    </tr>
+    <tr>
+      <td>Password:</td>
+      <td>
+        <input type='password' [(ngModel)]='password' name='password'>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <button (click)='login()'>Login</button>
+      </td>
+    </tr>
+    <tr>
+        <td>
+          <a routerLink='/register'>Register</a>
+        </td>
+      </tr>
+      <tr>
+          <td>
+            <a routerLink='/reset'>Reset</a>
+          </td>
+        </tr>
+  </table>
+</form>

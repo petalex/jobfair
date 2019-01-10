@@ -1,0 +1,9 @@
+<h1>Choose a user type</h1>
+<div *ngIf="userTypes">
+  <h3>
+    <div *ngFor="let userType of userTypes" >
+        <a routerLink="/login/{{ userType|lowercase }}">{{userType}}</a>
+    </div>
+  </h3>
+</div>
+
