@@ -1,16 +1,9 @@
 import mongoose from 'mongoose';
+import Field from './field';
 
 const Schema = mongoose.Schema;
 
-export enum Field {
-    IT,
-    Telecommunication,
-    Energetics,
-    CivilArchitecture,
-    MechanicalEngineering
-}
-
-let User = new Schema({
+let Company = new Schema({
     username: {
         type: String
     },
@@ -35,16 +28,16 @@ let User = new Schema({
     employees: {
         type: Number
     },
-    mail:{
+    mail: {
         type: String
     },
-    site:{
+    site: {
         type: String
     },
-    field:{
-        type: Field
+    field: {
+        type: String
     },
-    specialty:{
+    specialty: {
         type: String
     },
     logo: {
@@ -52,4 +45,4 @@ let User = new Schema({
     }
 });
 
-export default mongoose.model('User', User);
+export default mongoose.model('Company', Company);

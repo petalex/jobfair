@@ -1,3 +1,117 @@
-<p>
-  register works!
-</p>
+<h3>Register - {{ usertype.name | titlecase }}</h3>
+<form>
+  <table>
+    <div *ngIf="errors">
+      <tr *ngFor="let error of errors" style="color: red">
+        <td>{{ error }}</td>
+      </tr>
+    </div>
+    
+    <tr>
+      <td>
+        <input type='text' [(ngModel)]='username' name='username' placeholder="Username">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type='password' [(ngModel)]='password' name='password' placeholder="Password">
+      </td>
+    </tr>
+
+  <div *ngIf="usertype.type === 'student' || usertype.type === 'admin'">
+    <tr>
+      <td>
+        <input type='text' [(ngModel)]='phone' name='phone' placeholder="Phone">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type='email' [(ngModel)]='mail' name='mail' placeholder="E-mail">
+      </td>
+    </tr>
+
+  <div *ngIf="usertype.type === 'student'">
+    <tr>
+      <td>
+        <label for="year">Year of studies:</label>
+        <select [(ngModel)]='year' name='year'>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label for="graduated">Graduated from college?</label>
+        <input type='checkbox' [(ngModel)]='graduated' name='graduated'>
+      </td>
+    </tr>
+  </div>
+  </div>
+
+  <div *ngIf="usertype.type === 'company'">
+    <tr>
+      <td>
+        <input type='text' [(ngModel)]='name' name='name' placeholder="Name of company">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type='text' [(ngModel)]='city' name='city' placeholder="City">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type='text' [(ngModel)]='address' name='address' placeholder="Address">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type='text' [(ngModel)]='executive' name='executive' placeholder="Executive">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type='text' [(ngModel)]='taxid' name='taxid' placeholder="Tax ID">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type='text' [(ngModel)]='employees' name='employees' placeholder="Number of employees">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type='text' [(ngModel)]='mail' name='mail' placeholder="E-mail">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type='text' [(ngModel)]='site' name='site' placeholder="Web site">
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <label for="year">Field:</label>
+        <select [(ngModel)]='field' name='field'>
+          <option *ngFor="let f of fields" value="{{ f.field }}">{{ f.name }}</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input type='text' [(ngModel)]='specialty' name='specialty' placeholder="Specialty">
+      </td>
+    </tr>
+  </div>
+    <tr>
+      <td>
+        <button (click)='login()'>Login</button>
+        <a routerLink='/register'>Register</a>
+        <a routerLink='/reset'>Reset</a>
+      </td>
+    </tr>
+  </table>
+</form>

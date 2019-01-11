@@ -1,0 +1,9 @@
+<h1>Welcome to JobFair</h1>
+<h2>Which type of user are you?</h2>
+<div *ngIf="usertypes">
+  <h3>
+    <div *ngFor="let usertype of usertypes" >
+        <button (click)="chooseUsertype(usertype)">{{ usertype.name | titlecase }}</button>
+    </div>
+  </h3>
+</div>
