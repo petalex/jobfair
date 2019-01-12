@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import bodyParser from 'body-parser';
+import bodyParser, { json } from 'body-parser';
 import mongoose from 'mongoose';
 
 const app = express();
@@ -18,86 +18,66 @@ connection.once('open', () => {
 
 const router = express.Router();
 
-import Usertype from './models/usertype';
+import User from './models/user';
 import Student from './models/student';
 import Admin from './models/admin';
 import Company from './models/company';
 import Field from './models/field';
+import Type from './models/type';
 
-router.route('/usertypes').get((req, res) => {
-        Usertype.find({}, (err, usertypes) => {
-            if (err) console.log(err);
-            else res.json(usertypes);
-        });
-    }
-);
+router.route('/types').get((req, res) => {
+    Type.find({}, (err, types) => {
+        if (err) console.log(err);
+        else res.json(types);
+    });
+});
 
 router.route('/fields').get((req, res) => {
-        Field.find({}, (err, fields) => {
-            if (err) console.log(err);
-            else res.json(fields);
-        });
-    }
-);
+    Field.find({}, (err, fields) => {
+        if (err) console.log(err);
+        else res.json(fields);
+    });
+});
 
 router.route('/login').post((req, res) => {
-        let username = req.body.username;
-        let password = req.body.password;
-        let type = req.body.type;
+    let username = req.body.username;
+    let password = req.body.password;
 
-        let User = null;
-        switch (type) {
-            case 'student': {
-                User = Student;
-                break;
-            }
-            case 'admin': {
-                User = Admin;
-                break;
-            }
-            case 'company': {
-                User = Company;
-                break;
-            }
+    User.findOne({ 'username': username, 'password': password }).exec((err, user) => {
+        if (err) console.log(err);
+        else {
+            res.json(user);
+            return;
         }
+    });
+});
 
-        User.findOne({ 'username': username, 'password': password }, (err, student) => {
-            if (err) console.log(err);
-            else res.json(student);
-        });
-    }
-);
-/*
-router.route('/register').post((req, res) => {
-    let student = new Student(req.body);
-    let type = req.body.type;
-
-    let user = null;
-    switch (type) {
-        case 'student': {
-            User = Student;
-            break;
-        }
-        case 'admin': {
-            User = Admin;
-            break;
-        }
-        case 'company': {
-            User = Company;
-            break;
-        }
-    }
+router.route('/register/student').post((req, res) => {
+    let student = new Student(req.body.user);
 
     student.save()
-            .then(student => {
+            .then((student: any) => {
                 res.status(200).json({ 'succesful': 'yes' });
             })
-            .catch(err => {
+            .catch((err: any) => {
                 res.status(400).json({ 'succesful': 'no' });
             });
 });
 
-router.route('/reset/student').post((req, res) => {
+router.route('/register/company').post((req, res) => {
+    let company = new Company(req.body.user);
+
+    company.save()
+            .then((company: any) => {
+                res.status(200).json({ 'succesful': 'yes' });
+            })
+            .catch((err: any) => {
+                res.status(400).json({ 'succesful': 'no' });
+            });
+});
+
+/*
+router.route('/reset').post((req, res) => {
     let username = req.body.username;
     let password = req.body.password;
     let newPassword = req.body.newPassword;

@@ -8,7 +8,6 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ResetComponent } from './reset/reset.component';
-import { WelcomeComponent } from './welcome/welcome.component';
 
 import { AuthenticationService } from './authentication.service';
 
@@ -18,7 +17,6 @@ import { AuthenticationService } from './authentication.service';
     LoginComponent,
     RegisterComponent,
     ResetComponent,
-    WelcomeComponent
   ],
   imports: [
     BrowserModule,

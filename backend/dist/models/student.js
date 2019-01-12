@@ -4,14 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
+const user_1 = __importDefault(require("./user"));
 const Schema = mongoose_1.default.Schema;
 let Student = new Schema({
-    username: {
-        type: String
-    },
-    password: {
-        type: String
-    },
     firstname: {
         type: String
     },
@@ -31,8 +26,10 @@ let Student = new Schema({
         type: Boolean
     },
     profile: {
-        type: String
+        type: Buffer
     }
+}, {
+    discriminatorKey: 'type'
 });
-exports.default = mongoose_1.default.model('Student', Student);
+exports.default = user_1.default.discriminator('student', Student);
 //# sourceMappingURL=student.js.map

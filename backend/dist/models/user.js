@@ -11,19 +11,9 @@ let User = new Schema({
     },
     password: {
         type: String
-    },
-    mail: {
-        type: String
-    },
-    type: {
-        type: String
-    },
-    approved: {
-        type: String
-    },
-    news: {
-        type: Array
     }
+}, {
+    discriminatorKey: 'type'
 });
-exports.default = mongoose_1.default.model('User', User);
+exports.default = mongoose_1.default.model('user', User);
 //# sourceMappingURL=user.js.map

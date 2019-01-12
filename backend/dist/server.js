@@ -16,17 +16,17 @@ connection.once('open', () => {
     console.log('[Server] Succesfully connected to Mongo.');
 });
 const router = express_1.default.Router();
-const usertype_1 = __importDefault(require("./models/usertype"));
+const user_1 = __importDefault(require("./models/user"));
 const student_1 = __importDefault(require("./models/student"));
-const admin_1 = __importDefault(require("./models/admin"));
 const company_1 = __importDefault(require("./models/company"));
 const field_1 = __importDefault(require("./models/field"));
-router.route('/usertypes').get((req, res) => {
-    usertype_1.default.find({}, (err, usertypes) => {
+const type_1 = __importDefault(require("./models/type"));
+router.route('/types').get((req, res) => {
+    type_1.default.find({}, (err, types) => {
         if (err)
             console.log(err);
         else
-            res.json(usertypes);
+            res.json(types);
     });
 });
 router.route('/fields').get((req, res) => {
@@ -40,60 +40,37 @@ router.route('/fields').get((req, res) => {
 router.route('/login').post((req, res) => {
     let username = req.body.username;
     let password = req.body.password;
-    let type = req.body.type;
-    let User = null;
-    switch (type) {
-        case 'student': {
-            User = student_1.default;
-            break;
-        }
-        case 'admin': {
-            User = admin_1.default;
-            break;
-        }
-        case 'company': {
-            User = company_1.default;
-            break;
-        }
-    }
-    User.findOne({ 'username': username, 'password': password }, (err, student) => {
+    user_1.default.findOne({ 'username': username, 'password': password }).exec((err, user) => {
         if (err)
             console.log(err);
-        else
-            res.json(student);
+        else {
+            res.json(user);
+            return;
+        }
+    });
+});
+router.route('/register/student').post((req, res) => {
+    let student = new student_1.default(req.body.user);
+    student.save()
+        .then((student) => {
+        res.status(200).json({ 'succesful': 'yes' });
+    })
+        .catch((err) => {
+        res.status(400).json({ 'succesful': 'no' });
+    });
+});
+router.route('/register/company').post((req, res) => {
+    let company = new company_1.default(req.body.user);
+    company.save()
+        .then((company) => {
+        res.status(200).json({ 'succesful': 'yes' });
+    })
+        .catch((err) => {
+        res.status(400).json({ 'succesful': 'no' });
     });
 });
 /*
-router.route('/register').post((req, res) => {
-    let student = new Student(req.body);
-    let type = req.body.type;
-
-    let user = null;
-    switch (type) {
-        case 'student': {
-            User = Student;
-            break;
-        }
-        case 'admin': {
-            User = Admin;
-            break;
-        }
-        case 'company': {
-            User = Company;
-            break;
-        }
-    }
-
-    student.save()
-            .then(student => {
-                res.status(200).json({ 'succesful': 'yes' });
-            })
-            .catch(err => {
-                res.status(400).json({ 'succesful': 'no' });
-            });
-});
-
-router.route('/reset/student').post((req, res) => {
+router.route('/reset').post((req, res) => {
     let username = req.body.username;
     let password = req.body.password;
     let newPassword = req.body.newPassword;

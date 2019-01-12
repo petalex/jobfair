@@ -11,4 +11,4 @@ let Field = new Schema({
     }
 });
 
-export default mongoose.model('Field', Field);
+export default mongoose.model('field', Field);

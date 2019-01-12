@@ -4,14 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
+const user_1 = __importDefault(require("./user"));
 const Schema = mongoose_1.default.Schema;
 let Admin = new Schema({
-    username: {
-        type: String
-    },
-    password: {
-        type: String
-    },
     firstname: {
         type: String
     },
@@ -25,8 +20,10 @@ let Admin = new Schema({
         type: String
     },
     profile: {
-        type: String
+        type: Buffer
     }
+}, {
+    discriminatorKey: 'type'
 });
-exports.default = mongoose_1.default.model('Admin', Admin);
+exports.default = user_1.default.discriminator('admin', Admin);
 //# sourceMappingURL=admin.js.map

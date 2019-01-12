@@ -1,4 +1,4 @@
-export interface Usertype {
+export interface Type {
     type: String,
     name: String
 }

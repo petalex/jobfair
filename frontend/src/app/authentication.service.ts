@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Usertype } from './interfaces/usertype';
+import { Student } from './models/student';
+import { Admin } from './models/admin';
+import { Company } from './models/company';
 
 const uri: String = "http://localhost:4000";
 
@@ -9,38 +11,44 @@ const uri: String = "http://localhost:4000";
 })
 export class AuthenticationService {
 
-  private chosenUsertype: Usertype;
-
   constructor(private http: HttpClient) { }
 
-  getUsertypes() {
-    return this.http.get(uri + '/usertypes');
+  setCurrentUser(user: Student | Admin | Company) {
+    sessionStorage.setItem("username", user.username.toString());
+  }
+
+  getCurrentUser() {
+    sessionStorage.getItem("username");
+    // TO-DO: Find the user
+  }
+
+  getTypes() {
+    return this.http.get(uri + '/types');
   }
 
   getFields() {
     return this.http.get(uri + '/fields');
   }
 
-  getChosenUsertype() {
-    // TO-DO Session
-    return this.chosenUsertype;
-  }
-
-  setChosenUsertype(usertype: Usertype) {
-    // TO-DO Session
-    this.chosenUsertype = usertype;
-  }
-
-  login(username: String, password: String, type: String) {
+  login(username: String, password: String) {
     const data = {
       username: username,
-      password: password,
-      type: type
+      password: password
     };
 
-    return this.http.post(uri + '/login/', data);
+    return this.http.post(uri + '/login', data);
   }
 
-  register() {}
+  register(user: Student | Company) {
+    const data = {
+      user: user
+    };
+
+    return this.http.post(uri + '/register/' + user.type, data);
+  }
+
+  reset() {
+    
+  }
 
 }

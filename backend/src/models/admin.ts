@@ -1,29 +1,29 @@
 import mongoose from 'mongoose';
+import User from './user';
 
 const Schema = mongoose.Schema;
 
-let Admin = new Schema({
-    username: {
-        type: String
-    },
-    password: {
-        type: String
-    },
-    firstname: {
-        type: String
-    },
-    lastname: {
-        type: String
-    },
-    phone: {
-        type: String
-    },
-    mail: {
-        type: String
-    },
-    profile: {
-        type: String
+let Admin = new Schema(
+    {
+        firstname: {
+            type: String
+        },
+        lastname: {
+            type: String
+        },
+        phone: {
+            type: String
+        },
+        mail: {
+            type: String
+        },
+        profile: {
+            type: Buffer
+        }
+    }, 
+    {
+        discriminatorKey: 'type'
     }
-});
+);
 
-export default mongoose.model('Admin', Admin);
+export default User.discriminator('admin', Admin);

@@ -3,10 +3,9 @@ import { Router } from '@angular/router';
 
 import { AuthenticationService } from '../authentication.service';
 
-import { Student } from '../interfaces/student';
-import { Admin } from '../interfaces/admin';
-import { Company } from '../interfaces/company';
-import { Usertype } from '../interfaces/usertype';
+import { Student } from '../models/student';
+import { Admin } from '../models/admin';
+import { Company } from '../models/company';
 
 
 @Component({
@@ -16,19 +15,15 @@ import { Usertype } from '../interfaces/usertype';
 })
 export class LoginComponent implements OnInit {
 
-  public usertype: Usertype;
+  username: String;
 
-  public username: String;
-
-  public password: String;
+  password: String;
   
-  public errors: String[] = [];
+  errors: String[] = [];
 
   constructor(private router: Router, private service: AuthenticationService) { }
 
-  ngOnInit() {
-    this.usertype = this.service.getChosenUsertype();
-  }
+  ngOnInit() { }
 
   login(): void {
     this.errors = [];
@@ -44,12 +39,12 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    this.service.login(this.username, this.password, this.usertype.type).subscribe((user: Student | Admin | Company) => {
+    this.service.login(this.username, this.password).subscribe((user: Student | Admin | Company) => {
       if (user) {
-
-        /* TO-DO: Session */
-
-        switch (this.usertype.type) {
+        alert("Logged in!");
+        this.service.setCurrentUser(user);
+        
+        switch (user.type) {
           case "student": {
             this.router.navigate(['/student']);
             break;
@@ -65,6 +60,7 @@ export class LoginComponent implements OnInit {
         }
       } else {
         this.errors.push("Incorrect credentials. Please try again");
+        this.password = "";
       }
     });
   }

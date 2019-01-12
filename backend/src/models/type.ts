@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
-let Usertype = new Schema({
+let Type = new Schema({
     type: {
         type: String
     },
@@ -11,4 +11,4 @@ let Usertype = new Schema({
     }
 });
 
-export default mongoose.model('Usertype', Usertype);
+export default mongoose.model('type', Type);

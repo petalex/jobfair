@@ -3,8 +3,10 @@ import { Router } from '@angular/router';
 
 import { AuthenticationService } from '../authentication.service';
 
-import { Usertype } from '../interfaces/usertype';
-import { Field } from '../interfaces/field';
+import { Type } from '../models/type';
+import { Field } from '../models/field';
+import { Student } from '../models/student';
+import { Company } from '../models/company';
 
 @Component({
   selector: 'app-register',
@@ -13,19 +15,45 @@ import { Field } from '../interfaces/field';
 })
 export class RegisterComponent implements OnInit {
 
-  public usertype: Usertype;
+  type: String = null;
 
-  public fields: Field[];
+  types: Type[];
+
+  fields: Field[];
+
+  user: Student | Company; 
 
   constructor(private router: Router, private service: AuthenticationService) { }
 
   ngOnInit() {
-    this.usertype = this.service.getChosenUsertype();
-    if (this.usertype.type === "company") {
-      this.service.getFields().subscribe((fields: Field[]) => {
-        this.fields = fields;
+    this.service.getTypes().subscribe((types: Type[]) => {
+      this.types = types.filter(function(type) {
+        return type.type != "admin";
       });
+    });
+    this.service.getFields().subscribe((fields: Field[]) => {
+      this.fields = fields;
+    });
+  }
+
+  createUser() {
+    switch (this.type) {
+      case "student":{
+        this.user = new Student();
+        break;
+      }
+      case "company": {
+        this.user = new Company();
+        break;
+      }
     }
+  }
+
+  register() {
+    // TO-DO: RegEx
+    this.service.register(this.user).subscribe((transaction) => {
+      this.router.navigate(["/login"]);
+    });
   }
 
 }
