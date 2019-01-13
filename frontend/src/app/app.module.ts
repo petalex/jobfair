@@ -8,8 +8,13 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ResetComponent } from './reset/reset.component';
+import { GuestComponent } from './guest/guest.component';
+import { StudentComponent } from './student/student.component';
+import { ResumeComponent } from './resume/resume.component';
 
 import { AuthenticationService } from './authentication.service';
+import { GuestService } from './guest.service';
+import { StudentService } from './student.service';
 
 @NgModule({
   declarations: [
@@ -17,6 +22,9 @@ import { AuthenticationService } from './authentication.service';
     LoginComponent,
     RegisterComponent,
     ResetComponent,
+    GuestComponent,
+    StudentComponent,
+    ResumeComponent,
   ],
   imports: [
     BrowserModule,
@@ -24,7 +32,7 @@ import { AuthenticationService } from './authentication.service';
     FormsModule,
     AppRoutingModule
   ],
-  providers: [AuthenticationService],
+  providers: [AuthenticationService, GuestService, StudentService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

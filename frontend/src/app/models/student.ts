@@ -18,6 +18,6 @@ export class Student {
 
     graduated: Boolean = false;
 
-    profile: Buffer = null;
+    profile: String = null;
     
 }

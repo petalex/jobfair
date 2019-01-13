@@ -40,49 +40,71 @@ router.route('/fields').get((req, res) => {
 router.route('/login').post((req, res) => {
     let username = req.body.username;
     let password = req.body.password;
-    user_1.default.findOne({ 'username': username, 'password': password }).exec((err, user) => {
+    user_1.default.findOne({ 'username': username, 'password': password }, (err, user) => {
         if (err)
             console.log(err);
-        else {
+        else
             res.json(user);
-            return;
+    });
+});
+router.route('/register').post((req, res) => {
+    user_1.default.findOne({ 'username': req.body.user.username }, (err, user) => {
+        if (err)
+            console.log(err);
+        else if (user)
+            res.json(null);
+        else {
+            switch (req.body.user.type) {
+                case "student": {
+                    student_1.default.create([req.body.user], (err, student) => {
+                        if (err)
+                            console.log(err);
+                        else
+                            res.json(student);
+                    });
+                    break;
+                }
+                case "company": {
+                    company_1.default.create([req.body.user], (err, company) => {
+                        if (err)
+                            console.log(err);
+                        else
+                            res.json(company);
+                    });
+                    break;
+                }
+                default: {
+                    res.json(null);
+                    break;
+                }
+            }
         }
     });
 });
-router.route('/register/student').post((req, res) => {
-    let student = new student_1.default(req.body.user);
-    student.save()
-        .then((student) => {
-        res.status(200).json({ 'succesful': 'yes' });
-    })
-        .catch((err) => {
-        res.status(400).json({ 'succesful': 'no' });
-    });
-});
-router.route('/register/company').post((req, res) => {
-    let company = new company_1.default(req.body.user);
-    company.save()
-        .then((company) => {
-        res.status(200).json({ 'succesful': 'yes' });
-    })
-        .catch((err) => {
-        res.status(400).json({ 'succesful': 'no' });
-    });
-});
-/*
 router.route('/reset').post((req, res) => {
     let username = req.body.username;
     let password = req.body.password;
     let newPassword = req.body.newPassword;
-
-    Student.findOneAndUpdate({ 'username': username, 'password': password }, { $set: { 'password': newPassword } })
-            .then(student => {
-                res.status(200).json({ 'succesful': 'yes' });
-            })
-            .catch(err => {
-                res.status(400).json({ 'succesful': 'no' });
-            });
-});*/
+    user_1.default.findOneAndUpdate({ 'username': username, 'password': password }, { $set: { 'password': newPassword } }, (err, user) => {
+        if (err)
+            console.log(err);
+        else
+            res.json(user);
+    });
+});
+router.route('/companies').post((req, res) => {
+    let conditions = JSON.parse(JSON.stringify(req.body, (key, value) => {
+        if (value == "" || value == null)
+            return undefined;
+        return value;
+    }));
+    company_1.default.find(conditions, (err, companies) => {
+        if (err)
+            console.log(err);
+        else
+            res.json(companies);
+    });
+});
 app.use('/', router);
 app.listen(4000, () => {
     console.log('[Server] Running on port 4000.');

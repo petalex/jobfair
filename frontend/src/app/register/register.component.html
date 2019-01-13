@@ -1,17 +1,14 @@
 <h3>Register</h3>
+<div *ngIf="errors">
+  <div *ngFor="let error of errors" style="color: red">{{ error }}</div>
+</div>
 <form>
   <table>
-    <div *ngIf="errors">
-      <tr *ngFor="let error of errors" style="color: red">
-        <td>{{ error }}</td>
-        <td>{{ error }}</td>
-      </tr>
-    </div>
     <tr>
       <td>Type of user</td>
       <td>
         <select [(ngModel)]='type' name='type' (change)="createUser()">
-            <option *ngFor="let t of types" value="{{ t.type }}">{{ t.name }}</option>
+          <option *ngFor="let t of types" value="{{ t.type }}">{{ t.name }}</option>
         </select>
       </td>
     </tr>
@@ -29,6 +26,18 @@
       </td>
     </tr>
     <!-- Student-only fields -->
+    <tr *ngIf="type == 'student'">
+      <td>First name</td>
+      <td>
+        <input type='text' [(ngModel)]='user.firstname' name='firstname'>
+      </td>
+    </tr>
+    <tr *ngIf="type == 'student'">
+      <td>Last name</td>
+      <td>
+        <input type='text' [(ngModel)]='user.lastname' name='lastname'>
+      </td>
+    </tr>
     <tr *ngIf="type == 'student'">
       <td>Phone</td>
       <td>
@@ -66,7 +75,7 @@
     </tr>
     <!-- Company-only fields -->
     <tr *ngIf="type == 'company'">
-      <td>Company</td>
+      <td>Company name</td>
       <td>
         <input type='text' [(ngModel)]='user.name' name='name'>
       </td>
@@ -104,7 +113,7 @@
     <tr *ngIf="type == 'company'">
       <td>E-mail</td>
       <td>
-        <input type='text' [(ngModel)]='user.mail' name='mail'>
+        <input type='email' [(ngModel)]='user.mail' name='mail'>
       </td>
     </tr>
     <tr *ngIf="type == 'company'">
@@ -117,7 +126,7 @@
       <td>Field</td>
       <td>
         <select [(ngModel)]='user.field' name='field'>
-          <option *ngFor="let f of fields" value="{{ f.field }}">{{ f.name }}</option>
+          <option *ngFor="let f of fields" value="{{ f.name }}">{{ f.name }}</option>
         </select>
       </td>
     </tr>
@@ -131,7 +140,6 @@
       <td>Logo</td>
       <td>
         <input type='file' [(ngModel)]='user.logo' name='logo'>
-        
       </td>
     </tr>
     <!-- General -->

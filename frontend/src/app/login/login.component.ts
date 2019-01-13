@@ -25,39 +25,40 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() { }
 
-  login(): void {
+  private validate(): Boolean {
     this.errors = [];
     if (this.username === undefined || this.username === "") {
       this.errors.push("Please enter your username");
     }
-
     if (this.password === undefined || this.password === "") {
       this.errors.push("Please enter your password");
     }
+    return this.errors.length == 0;
+  }
 
-    if(this.errors.length) {
-      return;
+  private redirect(user: Student | Admin | Company) {
+    switch (user.type) {
+      case "student": {
+        this.router.navigate(['/student']);
+        break;
+      }
+      case "admin": {
+        this.router.navigate(['/admin']);
+        break;
+      }
+      case "company": {
+        this.router.navigate(['/company']);
+        break;
+      }
     }
+  }
 
+  login(): void {
+    if (!this.validate()) return;
     this.service.login(this.username, this.password).subscribe((user: Student | Admin | Company) => {
       if (user) {
-        alert("Logged in!");
         this.service.setCurrentUser(user);
-        
-        switch (user.type) {
-          case "student": {
-            this.router.navigate(['/student']);
-            break;
-          }
-          case "admin": {
-            this.router.navigate(['/admin']);
-            break;
-          }
-          case "company": {
-            this.router.navigate(['/company']);
-            break;
-          }
-        }
+        this.redirect(user);
       } else {
         this.errors.push("Incorrect credentials. Please try again");
         this.password = "";

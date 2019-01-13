@@ -1,6 +1,6 @@
 export class Company {
 
-    type: String = "";
+    type: String = "company";
 
     username: String = "";
 
@@ -26,6 +26,6 @@ export class Company {
 
     specialty: String = "";
 
-    logo: Buffer = null;
+    logo: String = null;
     
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+
 import { Student } from './models/student';
 import { Admin } from './models/admin';
 import { Company } from './models/company';
@@ -18,8 +19,12 @@ export class AuthenticationService {
   }
 
   getCurrentUser() {
-    sessionStorage.getItem("username");
     // TO-DO: Find the user
+    return sessionStorage.getItem("username");
+  }
+
+  removeCurrentUser() {
+    sessionStorage.removeItem("username");
   }
 
   getTypes() {
@@ -35,7 +40,6 @@ export class AuthenticationService {
       username: username,
       password: password
     };
-
     return this.http.post(uri + '/login', data);
   }
 
@@ -43,12 +47,16 @@ export class AuthenticationService {
     const data = {
       user: user
     };
-
-    return this.http.post(uri + '/register/' + user.type, data);
+    return this.http.post(uri + '/register', data);
   }
 
-  reset() {
-    
+  reset(username: String, password: String, newPassword: String) {
+    const data = {
+      username: username,
+      password: password,
+      newPassword: newPassword
+    };
+    return this.http.post(uri + '/reset', data);
   }
 
 }

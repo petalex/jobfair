@@ -1,0 +1,59 @@
+<h3>Guest</h3>
+<h4>Search companies</h4>
+<form>
+  <table>
+    <tr>
+      <td>Name</td>
+      <td>
+        <input type='text' [(ngModel)]='name' name='name'>
+      </td>
+    </tr>
+    <tr>
+      <td>City</td>
+      <td>
+        <input type='text' [(ngModel)]='city' name='city'>
+      </td>
+    </tr>
+    <tr>
+      <td>Field</td>
+      <td>
+        <select [(ngModel)]='field' name='field'>
+          <option *ngFor="let f of fields" value="{{ f.name }}">{{ f.name }}</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <button (click)='search()'>Search</button>
+      </td>
+      <td>
+        <a routerLink='/login'>Back</a>
+      </td>
+    </tr>
+  </table>
+</form>
+<table *ngIf="companies">
+  <tr *ngIf="companies.length">
+    <th>Logo</th>
+    <th>Name</th>
+    <th>City</th>
+    <th>Address</th>
+    <th>E-mail</th>
+    <th>Web site</th>
+    <th>Field</th>
+    <th>Specialty</th>
+  </tr>
+  <tr *ngFor="let company of companies">
+    <td></td>
+    <td>{{ company.name }}</td>
+    <td>{{ company.city }}</td>
+    <td>{{ company.address }}</td>
+    <td>{{ company.mail }}</td>
+    <td>{{ company.site }}</td>
+    <td>{{ company.field }}</td>
+    <td>{{ company.specialty }}</td>
+  </tr>
+  <tr *ngIf="companies.length  === 0">
+    <td colspan="8">No companies found</td>
+  </tr>
+</table>

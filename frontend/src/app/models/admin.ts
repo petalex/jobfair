@@ -1,19 +1,19 @@
-export interface Admin {
+export class Admin {
 
-    type: String;
+    type: String = "admin";
 
-    username: String;
+    username: String = "";
 
-    password: String;
+    password: String = "";
 
-    firstname: String;
+    firstname: String = "";
 
-    lastname: String;
+    lastname: String = "";
 
-    phone: String;
+    phone: String = "";
 
-    mail: String;
+    mail: String = "";
 
-    profile: String;
+    profile: String = null;
     
 }
