@@ -4,8 +4,6 @@ import { Router } from '@angular/router';
 import { StudentService } from '../student.service';
 import { AuthenticationService } from '../authentication.service';
 
-import { Student } from '../models/student';
-
 @Component({
   selector: 'app-student',
   templateUrl: './student.component.html',
@@ -19,10 +17,8 @@ export class StudentComponent implements OnInit {
 
   ngOnInit() {
     this.username = this.authService.getCurrentUser();
-  }
-
-  logout() {
-    this.authService.removeCurrentUser();
-    this.router.navigate(['/login']);
+    if (this.username == null) {
+      this.router.navigate(["/"]);
+    }
   }
 }

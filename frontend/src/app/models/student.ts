@@ -2,22 +2,22 @@ export class Student {
 
     type: String = "student";
 
-    username: String = "";
+    username: String;
 
-    password: String = "";
+    password: String;
 
-    firstname: String = "";
+    firstname: String;
 
-    lastname: String = "";
+    lastname: String;
 
-    phone: String = "";
+    phone: String;
 
-    mail: String = "";
+    mail: String;
 
-    year: Number = 0;
+    year: Number;
 
     graduated: Boolean = false;
 
-    profile: String = null;
+    profile: String;
     
 }

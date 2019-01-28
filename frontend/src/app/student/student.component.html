@@ -1,4 +1,16 @@
-<h3>Student panel - {{ username }}</h3>
-<a routerLink="/student/resume">Resume</a>
-<br><br>
-<button (click)="logout()">Logout</button>
+<app-header type="student"></app-header>
+<div class="alert alert-warning text-center" role="alert">
+    <strong>Student panel</strong> Please choose some of the options bellow.
+</div>
+<div class="container-fluid mycontainer">
+    <div class="row justify-content-xl-center justify-content-md-center justify-content-center">
+        <div class="col-xl-4 col-md-6 col-10">
+        <div class="card mx-auto">
+            <div class="card-header"><strong>Options</strong></div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><a routerLink="/student/resume">Create / Update your resume</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

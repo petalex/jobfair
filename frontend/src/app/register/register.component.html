@@ -1,155 +1,135 @@
-<h3>Register</h3>
-<div *ngIf="errors">
-  <div *ngFor="let error of errors" style="color: red">{{ error }}</div>
+<app-header type="welcome"></app-header>
+<div class="container-fluid mycontainer">
+  <div class="row justify-content-xl-center justify-content-md-center justify-content-center">
+    <div class="col-xl-4 col-md-6 col-10">
+      <div class="card mx-auto">
+        <div class="card-header"><strong>Register</strong></div>
+        <div class="card-body">
+          <form name="form-login">
+            <div *ngIf="errors" class="form-group">
+              <div *ngFor="let error of errors" class="alert alert-danger" role="alert">{{ error }}</div>
+            </div>
+            <div class="form-group">
+              <label for="type">Type of user</label>
+              <select class="form-control" [(ngModel)]='type' name='type' (change)="createUser()">
+                <option *ngFor="let t of types" value="{{ t.type }}">{{ t.name }}</option>
+              </select>
+            </div>
+            <!-- General fields -->
+            <div *ngIf="type">
+              <div class="form-group">
+                <label for="username">Username</label>
+                <input class="form-control" type="text" [(ngModel)]="user.username" name="username" placeholder="Enter your username" autofocus>
+              </div>
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input class="form-control" type="password" [(ngModel)]="user.password" name="password" placeholder="Enter your password">
+              </div>
+            </div>
+            <!-- Student-only fields -->
+            <div *ngIf="type == 'student'">
+              <div class="form-group">
+                <label for="firstname">First name</label>
+                <input class="form-control" type="text" [(ngModel)]="user.firstname" name="firstname" placeholder="Enter your first name">
+              </div>
+              <div class="form-group">
+                <label for="lastname">Last name</label>
+                <input class="form-control" type="text" [(ngModel)]="user.lastname" name="lastname" placeholder="Enter your last name">
+              </div>
+              <div class="form-group">
+                <label for="phone">Phone</label>
+                <input class="form-control" type="text" [(ngModel)]="user.phone" name="phone" placeholder="Enter your phone">
+              </div>
+              <div class="form-group">
+                <label for="mail">E-mail</label>
+                <input class="form-control" type="email" [(ngModel)]="user.mail" name="mail" placeholder="Enter your e-mail">
+              </div>
+              <div class="form-group">
+                <label for="type">Year of studies</label>
+                <select class="form-control" [(ngModel)]='user.year' name='year'>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="graduated">Graduated from college?</label>
+                <div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" [(ngModel)]="user.graduated" name="graduated" [value]="true">
+                    <label class="form-check-label" for="graduated">Yes</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" [(ngModel)]="user.graduated" name="graduated" [value]="false">
+                    <label class="form-check-label" for="graduated">No</label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="profile">Profile photo</label>
+                <input class="form-control-file" type="file" [(ngModel)]="user.profile" name="profile">
+              </div>
+            </div>
+            <!-- Company-only fields -->
+            <div *ngIf="type == 'company'">
+              <div class="form-group">
+                <label for="name">Company name</label>
+                <input class="form-control" type="text" [(ngModel)]="user.name" name="name" placeholder="Enter company name">
+              </div>
+              <div class="form-group">
+                <label for="city">City</label>
+                <input class="form-control" type="text" [(ngModel)]="user.city" name="city" placeholder="Enter city">
+              </div>
+              <div class="form-group">
+                <label for="address">Address</label>
+                <input class="form-control" type="text" [(ngModel)]="user.address" name="address" placeholder="Enter address">
+              </div>
+              <div class="form-group">
+                <label for="executive">Executive</label>
+                <input class="form-control" type="text" [(ngModel)]="user.executive" name="executive" placeholder="Enter executive">
+              </div>
+              <div class="form-group">
+                <label for="taxid">Tax ID</label>
+                <input class="form-control" type="text" [(ngModel)]="user.taxid" name="taxid" placeholder="Enter tax ID">
+              </div>
+              <div class="form-group">
+                <label for="employees">Number of employees</label>
+                <input class="form-control" type="text" [(ngModel)]="user.employees" name="employees" placeholder="Enter number of employees">
+              </div>
+              <div class="form-group">
+                <label for="mail">E-mail</label>
+                <input class="form-control" type="email" [(ngModel)]="user.mail" name="mail" placeholder="Enter e-mail">
+              </div>
+              <div class="form-group">
+                <label for="employees">Web site</label>
+                <input class="form-control" type="text" [(ngModel)]="user.site" name="site" placeholder="Enter web site">
+              </div>
+              <div class="form-group">
+                <label for="field">Field</label>
+                <select class="form-control" [(ngModel)]='user.field' name='field'>
+                  <option *ngFor="let f of fields" value="{{ f.name }}">{{ f.name }}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="specialty">Specialty</label>
+                <input class="form-control" type="text" [(ngModel)]="user.specialty" name="specialty" placeholder="Enter specialty">
+              </div>
+              <div class="form-group">
+                <label for="logo">Logo</label>
+                <input class="form-control-file" type="file" [(ngModel)]="user.logo" name="logo">
+              </div>
+            </div>
+            <!-- General register button -->
+            <button class="btn btn-primary btn-block" (click)="register()" [disabled]="!type">Register</button>
+          </form>
+          <div class="text-center">
+            <a class="d-block mt-3" routerLink="/register">Reset your password</a>
+            <a class="d-block" routerLink="/login">Back to login</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-<form>
-  <table>
-    <tr>
-      <td>Type of user</td>
-      <td>
-        <select [(ngModel)]='type' name='type' (change)="createUser()">
-          <option *ngFor="let t of types" value="{{ t.type }}">{{ t.name }}</option>
-        </select>
-      </td>
-    </tr>
-    <!-- General fields -->
-    <tr *ngIf="type">
-      <td>Username</td>
-      <td>
-        <input type='text' [(ngModel)]='user.username' name='username' [disabled]="!type">
-      </td>
-    </tr>
-    <tr *ngIf="type">
-      <td>Password</td>
-      <td>
-        <input type='password' [(ngModel)]='user.password' name='password' [disabled]="!type">
-      </td>
-    </tr>
-    <!-- Student-only fields -->
-    <tr *ngIf="type == 'student'">
-      <td>First name</td>
-      <td>
-        <input type='text' [(ngModel)]='user.firstname' name='firstname'>
-      </td>
-    </tr>
-    <tr *ngIf="type == 'student'">
-      <td>Last name</td>
-      <td>
-        <input type='text' [(ngModel)]='user.lastname' name='lastname'>
-      </td>
-    </tr>
-    <tr *ngIf="type == 'student'">
-      <td>Phone</td>
-      <td>
-        <input type='text' [(ngModel)]='user.phone' name='phone'>
-      </td>
-    </tr>
-    <tr *ngIf="type == 'student'">
-      <td>E-mail</td>
-      <td>
-        <input type='email' [(ngModel)]='user.mail' name='mail'>
-      </td>
-    </tr>
-    <tr *ngIf="type == 'student'">
-      <td>Year of studies</td>
-      <td>
-        <select [(ngModel)]='user.year' name='year'>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-        </select>
-      </td>
-    </tr>
-    <tr *ngIf="type == 'student'">
-      <td>Graduated from college?</td>
-      <td>
-        <input type='checkbox' [(ngModel)]='user.graduated' name='graduated'>
-      </td>
-    </tr>
-    <tr *ngIf="type == 'student'">
-      <td>Profile photo</td>
-      <td>
-        <input type='file' [(ngModel)]='user.profile' name='profile'>
-      </td>
-    </tr>
-    <!-- Company-only fields -->
-    <tr *ngIf="type == 'company'">
-      <td>Company name</td>
-      <td>
-        <input type='text' [(ngModel)]='user.name' name='name'>
-      </td>
-    </tr>
-    <tr *ngIf="type == 'company'">
-      <td>City</td>
-      <td>
-        <input type='text' [(ngModel)]='user.city' name='city'>
-      </td>
-    </tr>
-    <tr *ngIf="type == 'company'">
-      <td>Address</td>
-      <td>
-        <input type='text' [(ngModel)]='user.address' name='address'>
-      </td>
-    </tr>
-    <tr *ngIf="type == 'company'">
-      <td>Executive</td>
-      <td>
-        <input type='text' [(ngModel)]='user.executive' name='executive'>
-      </td>
-    </tr>
-    <tr *ngIf="type == 'company'">
-      <td>Tax ID</td>
-      <td>
-        <input type='text' [(ngModel)]='user.taxid' name='taxid'>
-      </td>
-    </tr>
-    <tr *ngIf="type == 'company'">
-      <td>Number of employees</td>
-      <td>
-        <input type='text' [(ngModel)]='user.employees' name='employees'>
-      </td>
-    </tr>
-    <tr *ngIf="type == 'company'">
-      <td>E-mail</td>
-      <td>
-        <input type='email' [(ngModel)]='user.mail' name='mail'>
-      </td>
-    </tr>
-    <tr *ngIf="type == 'company'">
-      <td>Web site</td>
-      <td>
-        <input type='text' [(ngModel)]='user.site' name='site'>
-      </td>
-    </tr>
-    <tr *ngIf="type == 'company'">
-      <td>Field</td>
-      <td>
-        <select [(ngModel)]='user.field' name='field'>
-          <option *ngFor="let f of fields" value="{{ f.name }}">{{ f.name }}</option>
-        </select>
-      </td>
-    </tr>
-    <tr *ngIf="type == 'company'">
-      <td>Specialty</td>
-      <td>
-        <input type='text' [(ngModel)]='user.specialty' name='specialty'>
-      </td>
-    </tr>
-    <tr *ngIf="type == 'company'">
-      <td>Logo</td>
-      <td>
-        <input type='file' [(ngModel)]='user.logo' name='logo'>
-      </td>
-    </tr>
-    <!-- General -->
-    <tr>
-      <td>
-        <button (click)='register()' [disabled]="!type">Register</button>
-      </td>
-      <td>
-        <a routerLink='/login'>Back</a>
-      </td>
-    </tr>
-  </table>
-</form>
+<app-footer></app-footer>

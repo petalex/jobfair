@@ -1,585 +1,482 @@
-<h3>Resume</h3>
-<div *ngIf="errors">
-  <div *ngFor="let error of errors" style="color: red">{{ error }}</div>
+<app-header type="student"></app-header>
+<div class="container-fluid mycontainer">
+  <div class="row justify-content-xl-center justify-content-md-center justify-content-center">
+    <div class="col-xl-6 col-md-8 col">
+      <div class="card mx-auto">
+        <div class="card-header"><strong>Resume</strong></div>
+        <div class="card-body">
+          <form name="form-resume">
+            <div *ngIf="errors" class="form-group">
+              <div *ngFor="let error of errors" class="alert alert-danger" role="alert">{{ error }}</div>
+            </div>
+            <!-- Personal information fields -->
+            <ul [ngClass]="{'list-group': true, 'myspacing': !sections[0]}">
+              <li [ngClass]="{'list-group-item': true, 'list-group-item-action': true, 'list-group-item-secondary': sections[0]}" (click)="toggle(0)">
+                <div class="float-left">Personal information</div>
+                <div *ngIf="!sections[0]" class="float-right">&#x25BE;</div>
+                <div *ngIf="sections[0]" class="float-right">&#x25B4;</div>
+              </li>
+              <div *ngIf="sections[0]" class="container-fluid mysection">
+                <div class="form-group">
+                  <label for="firstname">First name</label>
+                  <input class="form-control" type="text" [(ngModel)]="resume.firstname" name="firstname" placeholder="Enter your first name">
+                </div>
+                <div class="form-group">
+                  <label for="lastname">Last name</label>
+                  <input class="form-control" type="text" [(ngModel)]="resume.lastname" name="lastname" placeholder="Enter your last name">
+                </div>
+                <div class="form-group">
+                  <label for="address">Address</label>
+                  <input class="form-control" type="text" [(ngModel)]="resume.address" name="address" placeholder="Enter your address">
+                </div>
+                <div class="form-group">
+                  <label for="zip">Zip code</label>
+                  <input class="form-control" type="text" [(ngModel)]="resume.zip" name="zip" placeholder="Enter your zip code">
+                </div>
+                <div class="form-group">
+                  <label for="city">City</label>
+                  <input class="form-control" type="text" [(ngModel)]="resume.city" name="city" placeholder="Enter your city">
+                </div>
+                <div class="form-group">
+                  <label for="country">Country</label>
+                  <input class="form-control" type="text" [(ngModel)]="resume.country" name="country" placeholder="Enter your country">
+                </div>
+                <div class="form-group">
+                  <label for="phone">Phone</label>
+                  <input class="form-control" type="text" [(ngModel)]="resume.phone" name="phone" placeholder="Enter your phone">
+                </div>
+                <div class="form-group">
+                  <label for="mail">E-mail</label>
+                  <input class="form-control" type="email" [(ngModel)]="resume.mail" name="mail" placeholder="Enter your e-mail">
+                </div>
+                <div class="form-group">
+                  <label for="site">Web site</label>
+                  <input class="form-control" type="text" [(ngModel)]="resume.site" name="site" placeholder="Enter your web site">
+                </div>
+                <div class="form-group">
+                  <label for="skype">Skype ID</label>
+                  <input class="form-control" type="text" [(ngModel)]="resume.skype" name="skype" placeholder="Enter your Skype ID">
+                </div>
+                <label><b><i>Extra fields</i></b></label>
+                <div class="form-group">
+                  <label for="sex">Sex</label>
+                  <div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" [(ngModel)]="resume.sex" name="sex" [value]="male">
+                      <label class="form-check-label" for="sex">Male</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" [(ngModel)]="resume.sex" name="sex" [value]="female">
+                      <label class="form-check-label" for="sex">Female</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" [(ngModel)]="resume.sex" name="sex" [value]="none">
+                      <label class="form-check-label" for="sex">Do not indicate</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="birth">Date of birth</label>
+                  <input class="form-control" type="date" [(ngModel)]="resume.birth" name="birth">
+                </div>
+                <div class="form-group">
+                  <label for="nationality">Nationality</label>
+                  <input class="form-control" type="text" [(ngModel)]="resume.nationality" name="nationality" placeholder="Enter your nationality">
+                </div>
+              </div>
+            </ul>
+            <!-- Type of Application fields -->
+            <ul [ngClass]="{'list-group': true, 'myspacing': !sections[1]}">
+              <li [ngClass]="{'list-group-item': true, 'list-group-item-action': true, 'list-group-item-secondary': sections[1]}" (click)="toggle(1)">
+                <div class="float-left">Type of Application</div>
+                <div *ngIf="!sections[1]" class="float-right">&#x25BE;</div>
+                <div *ngIf="sections[1]" class="float-right">&#x25B4;</div>
+              </li>
+              <div *ngIf="sections[1]" class="container-fluid mysection">
+                <div class="form-group">
+                  <label for="type">Type of Application</label>
+                  <select class="form-control" [(ngModel)]='resume.type' name='type'>
+                    <option value="job">Job applied for</option>
+                    <option value="position">Position</option>
+                    <option value="preferred">Preffered job</option>
+                    <option value="studies">Studies applied for</option>
+                    <option value="personal">Personal statement</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="description">Description</label>
+                  <input class="form-control" type="text" [(ngModel)]="resume.description" name="description" placeholder="Enter description">
+                </div>
+              </div>
+            </ul>
+            <!-- Education and training fields -->
+            <ul [ngClass]="{'list-group': true, 'myspacing': !sections[2]}">
+              <li [ngClass]="{'list-group-item': true, 'list-group-item-action': true, 'list-group-item-secondary': sections[2]}" (click)="toggle(2)">
+                <div class="float-left">Education and training</div>
+                <div *ngIf="!sections[2]" class="float-right">&#x25BE;</div>
+                <div *ngIf="sections[2]" class="float-right">&#x25B4;</div>
+              </li>
+              <div *ngIf="sections[2]" class="container-fluid mysection">
+                <div class="form-group">
+                  <label for="eduFrom">From</label>
+                  <input class="form-control" type="date" [(ngModel)]="resume.eduFrom" name="eduFrom">
+                </div>
+                <div class="form-group">
+                  <label for="eduTo">To</label>
+                  <input class="form-control" type="date" [(ngModel)]="resume.eduTo" name="eduTo">
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" [(ngModel)]="resume.eduOngoing" name="eduOngoing">
+                  <label class="form-check-label" for="eduOngoing">Ongoing</label>
+                </div>
+                <br/><br/>
+                <div class="form-group">
+                  <label for="eduFormat">Date format</label>
+                  <select class="form-control" [(ngModel)]='resume.eduFormat' name='eduFormat'>
+                    <option value="1">DD MMM. YYYY</option>
+                    <option value="2">DD/(M)M/YY</option>
+                    <option value="3">DD/(M)M/YYYY</option>
+                    <option value="4">DD/MM/YYYY</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="eduQualification">Title of qualification</label>
+                  <input class="form-control" type="text" [(ngModel)]="resume.eduQualification" name="eduQualification" placeholder="Enter title of qualification">
+                </div>
+                <label><b><i>Organisation providing education and training</i></b></label>
+                <div class="form-group">
+                  <label for="orgName">Name</label>
+                  <input class="form-control" type="text" [(ngModel)]="resume.orgName" name="orgName" placeholder="Enter name of organisation">
+                </div>
+                <div class="form-group">
+                  <label for="orgCity">City</label>
+                  <input class="form-control" type="text" [(ngModel)]="resume.orgCity" name="orgCity" placeholder="Enter city of organisation">
+                </div>
+                <div class="form-group">
+                  <label for="orgCountry">Country</label>
+                  <input class="form-control" type="text" [(ngModel)]="resume.orgCountry" name="orgCountry" placeholder="Enter country of organisation">
+                </div>
+                <label><i>More details</i></label>
+                <div class="form-group">
+                  <label for="orgAddress">Address</label>
+                  <input class="form-control" type="text" [(ngModel)]="resume.orgAddress" name="orgAddress" placeholder="Enter address of organisation">
+                </div>
+                <div class="form-group">
+                  <label for="orgZip">Zip code</label>
+                  <input class="form-control" type="text" [(ngModel)]="resume.orgZip" name="orgZip" placeholder="Enter zip code of organisation">
+                </div>
+                <div class="form-group">
+                  <label for="orgSite">Web site</label>
+                  <input class="form-control" type="text" [(ngModel)]="resume.orgSite" name="orgSite" placeholder="Enter web site of organisation">
+                </div>
+                <div class="form-group">
+                  <label for="eqf">EQF level</label>
+                  <select class="form-control" [(ngModel)]='resume.eqf' name='eqf'>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="eduSubjects">Main subjects</label>
+                  <textarea class="form-control" [(ngModel)]='resume.eduSubjects' name='eduSubjects'></textarea>
+                </div>
+                <label><i>Extra fields</i></label>
+                <div class="form-group">
+                  <label for="eduField">Educational field</label>
+                  <input class="form-control" type="text" [(ngModel)]="resume.eduField" name="eduField" placeholder="Enter educational field">
+                </div>
+                <div class="form-group">
+                  <label for="eduAttachment">Attachment</label>
+                  <input class="form-control-file" type="file" [(ngModel)]="resume.eduAttachment" name="eduAttachment">
+                </div>
+              </div>
+            </ul>
+            <!-- Work expirience fields -->
+            <ul [ngClass]="{'list-group': true, 'myspacing': !sections[3]}">
+              <li [ngClass]="{'list-group-item': true, 'list-group-item-action': true, 'list-group-item-secondary': sections[3]}" (click)="toggle(3)">
+                <div class="float-left">Work expirience</div>
+                <div *ngIf="!sections[3]" class="float-right">&#x25BE;</div>
+                <div *ngIf="sections[3]" class="float-right">&#x25B4;</div>
+              </li>
+              <div *ngIf="sections[3]" class="container-fluid mysection">
+                <div class="form-group">
+                  <label for="workFrom">From</label>
+                  <input class="form-control" type="date" [(ngModel)]="resume.workFrom" name="workFrom">
+                </div>
+                <div class="form-group">
+                  <label for="workTo">To</label>
+                  <input class="form-control" type="date" [(ngModel)]="resume.workTo" name="workTo">
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" [(ngModel)]="resume.workOngoing" name="workOngoing">
+                  <label class="form-check-label" for="workOngoing">Ongoing</label>
+                </div>
+                <br/><br/>
+                <div class="form-group">
+                  <label for="workFormat">Date format</label>
+                  <select class="form-control" [(ngModel)]='resume.workFormat' name='workFormat'>
+                    <option value="1">DD MMM. YYYY</option>
+                    <option value="2">DD/(M)M/YY</option>
+                    <option value="3">DD/(M)M/YYYY</option>
+                    <option value="4">DD/MM/YYYY</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="workPosition">Occupation or position held</label>
+                  <input class="form-control" type="text" [(ngModel)]="resume.workPosition" name="workPosition" placeholder="Enter occupation or position">
+                </div>
+                <label><b><i>Employer</i></b></label>
+                <div class="form-group">
+                  <label for="empName">Name</label>
+                  <input class="form-control" type="text" [(ngModel)]="resume.empName" name="empName" placeholder="Enter name of employer">
+                </div>
+                <div class="form-group">
+                  <label for="empCity">City</label>
+                  <input class="form-control" type="text" [(ngModel)]="resume.empCity" name="empCity" placeholder="Enter city of employer">
+                </div>
+                <div class="form-group">
+                  <label for="empCountry">Country</label>
+                  <input class="form-control" type="text" [(ngModel)]="resume.empCountry" name="empCountry" placeholder="Enter country of employer">
+                </div>
+                <label><i>More details</i></label>
+                <div class="form-group">
+                  <label for="empAddress">Address</label>
+                  <input class="form-control" type="text" [(ngModel)]="resume.empAddress" name="empAddress" placeholder="Enter address of employer">
+                </div>
+                <div class="form-group">
+                  <label for="empZip">Zip code</label>
+                  <input class="form-control" type="text" [(ngModel)]="resume.empZip" name="empZip" placeholder="Enter zip code of employer">
+                </div>
+                <div class="form-group">
+                  <label for="empSite">Web site</label>
+                  <input class="form-control" type="text" [(ngModel)]="resume.empSite" name="empSite" placeholder="Enter web site of employer">
+                </div>
+                <div class="form-group">
+                  <label for="empSector">Business or sector</label>
+                  <input class="form-control" type="text" [(ngModel)]="resume.empSector" name="empSector" placeholder="Enter business or sector">
+                </div>
+                <div class="form-group">
+                  <label for="workActivities">Main activities and responsabilities</label>
+                  <textarea class="form-control" [(ngModel)]='resume.workActivities' name='workActivities'></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="workAttachment">Attachment</label>
+                  <input class="form-control-file" type="file" [(ngModel)]="resume.workAttachment" name="workAttachment">
+                </div>
+              </div>
+            </ul>
+            <!-- Languages fields -->
+            <ul [ngClass]="{'list-group': true, 'myspacing': !sections[4]}">
+              <li [ngClass]="{'list-group-item': true, 'list-group-item-action': true, 'list-group-item-secondary': sections[4]}" (click)="toggle(4)">
+                <div class="float-left">Languages</div>
+                <div *ngIf="!sections[4]" class="float-right">&#x25BE;</div>
+                <div *ngIf="sections[4]" class="float-right">&#x25B4;</div>
+              </li>
+              <div *ngIf="sections[4]" class="container-fluid mysection">
+                <div class="form-group">
+                  <label for="native">Mother tongue</label>
+                  <input class="form-control" type="text" [(ngModel)]="resume.native" name="native" placeholder="Enter your mother tongue">
+                </div>
+                <label><b><i>Foreign language</i></b></label>
+                <div class="form-group">
+                  <label for="foreignLang">Language</label>
+                  <input class="form-control" type="text" [(ngModel)]="resume.foreignLang" name="foreignLang" placeholder="Enter your foreign language">
+                </div>
+                <label><i>Understanding</i></label>
+                <div class="form-group">
+                  <label for="foreignListening">Listening</label>
+                  <select class="form-control" [(ngModel)]='resume.foreignListening' name='foreignListening'>
+                    <option value="A1">A1</option>
+                    <option value="A2">A2</option>
+                    <option value="B1">B1</option>
+                    <option value="B2">B2</option>
+                    <option value="C1">C1</option>
+                    <option value="C2">C2</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="foreignReading">Reading</label>
+                  <select class="form-control" [(ngModel)]='resume.foreignReading' name='foreignReading'>
+                    <option value="A1">A1</option>
+                    <option value="A2">A2</option>
+                    <option value="B1">B1</option>
+                    <option value="B2">B2</option>
+                    <option value="C1">C1</option>
+                    <option value="C2">C2</option>
+                  </select>
+                </div>
+                <label><i>Speaking</i></label>
+                <div class="form-group">
+                  <label for="foreignInteraction">Spoken intercaction</label>
+                  <select class="form-control" [(ngModel)]='resume.foreignInteraction' name='foreignInteraction'>
+                    <option value="A1">A1</option>
+                    <option value="A2">A2</option>
+                    <option value="B1">B1</option>
+                    <option value="B2">B2</option>
+                    <option value="C1">C1</option>
+                    <option value="C2">C2</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="foreignProduction">Spoken production</label>
+                  <select class="form-control" [(ngModel)]='resume.foreignProduction' name='foreignProduction'>
+                    <option value="A1">A1</option>
+                    <option value="A2">A2</option>
+                    <option value="B1">B1</option>
+                    <option value="B2">B2</option>
+                    <option value="C1">C1</option>
+                    <option value="C2">C2</option>
+                  </select>
+                </div>
+                <label><i>Writing</i></label>
+                <div class="form-group">
+                  <label for="foreignWriting">Writing</label>
+                  <select class="form-control" [(ngModel)]='resume.foreignWriting' name='foreignWriting'>
+                    <option value="A1">A1</option>
+                    <option value="A2">A2</option>
+                    <option value="B1">B1</option>
+                    <option value="B2">B2</option>
+                    <option value="C1">C1</option>
+                    <option value="C2">C2</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="foreignDiploma">Diploma</label>
+                  <input class="form-control" type="text" [(ngModel)]="resume.foreignDiploma" name="foreignDiploma" placeholder="Enter your diploma">
+                </div>
+                <div class="form-group">
+                  <label for="foreignAttachment">Attachment</label>
+                  <input class="form-control-file" type="file" [(ngModel)]="resume.foreignAttachment" name="foreignAttachment">
+                </div>
+              </div>
+            </ul>
+            <!-- Communication skills fields -->
+            <ul [ngClass]="{'list-group': true, 'myspacing': !sections[5]}">
+              <li [ngClass]="{'list-group-item': true, 'list-group-item-action': true, 'list-group-item-secondary': sections[5]}" (click)="toggle(5)">
+                <div class="float-left">Communication skills</div>
+                <div *ngIf="!sections[5]" class="float-right">&#x25BE;</div>
+                <div *ngIf="sections[5]" class="float-right">&#x25B4;</div>
+              </li>
+              <div *ngIf="sections[5]" class="container-fluid mysection">
+                <div class="form-group">
+                  <label for="commSkills">Skills</label>
+                  <textarea class="form-control" [(ngModel)]='resume.commSkills' name='commSkills'></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="commAttachment">Attachment</label>
+                  <input class="form-control-file" type="file" [(ngModel)]="resume.commAttachment" name="commAttachment">
+                </div>
+              </div>
+            </ul>
+            <!-- Organisational / managerial skills fields -->
+            <ul [ngClass]="{'list-group': true, 'myspacing': !sections[6]}">
+              <li [ngClass]="{'list-group-item': true, 'list-group-item-action': true, 'list-group-item-secondary': sections[6]}" (click)="toggle(6)">
+                <div class="float-left">Organisational / managerial skills</div>
+                <div *ngIf="!sections[6]" class="float-right">&#x25BE;</div>
+                <div *ngIf="sections[6]" class="float-right">&#x25B4;</div>
+              </li>
+              <div *ngIf="sections[6]" class="container-fluid mysection">
+                <div class="form-group">
+                  <label for="orgSkills">Skills</label>
+                  <textarea class="form-control" [(ngModel)]='resume.orgSkills' name='orgSkills'></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="orgAttachment">Attachment</label>
+                  <input class="form-control-file" type="file" [(ngModel)]="resume.orgAttachment" name="orgAttachment">
+                </div>
+              </div>
+            </ul>
+            <!-- Job-related skills fields -->
+            <ul [ngClass]="{'list-group': true, 'myspacing': !sections[7]}">
+              <li [ngClass]="{'list-group-item': true, 'list-group-item-action': true, 'list-group-item-secondary': sections[7]}" (click)="toggle(7)">
+                <div class="float-left">Job-related skills</div>
+                <div *ngIf="!sections[7]" class="float-right">&#x25BE;</div>
+                <div *ngIf="sections[7]" class="float-right">&#x25B4;</div>
+              </li>
+              <div *ngIf="sections[7]" class="container-fluid mysection">
+                <div class="form-group">
+                  <label for="jobSkills">Skills</label>
+                  <textarea class="form-control" [(ngModel)]='resume.jobSkills' name='jobSkills'></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="jobAttachment">Attachment</label>
+                  <input class="form-control-file" type="file" [(ngModel)]="resume.jobAttachment" name="jobAttachment">
+                </div>
+              </div>
+            </ul>
+            <!-- Digital skills fields -->
+            <ul [ngClass]="{'list-group': true, 'myspacing': !sections[8]}">
+              <li [ngClass]="{'list-group-item': true, 'list-group-item-action': true, 'list-group-item-secondary': sections[8]}" (click)="toggle(8)">
+                <div class="float-left">Digital skills</div>
+                <div *ngIf="!sections[8]" class="float-right">&#x25BE;</div>
+                <div *ngIf="sections[8]" class="float-right">&#x25B4;</div>
+              </li>
+              <div *ngIf="sections[8]" class="container-fluid mysection">
+                <label><i>Self-assessment</i></label>
+                <div class="form-group">
+                  <label for="digitalInformation">Information processing</label>
+                  <select class="form-control" [(ngModel)]='resume.digitalInformation' name='digitalInformation'>
+                    <option value="basic">Basic user</option>
+                    <option value="independent">Independent user</option>
+                    <option value="proficient">Proficient user</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="digitalCommunication">Communication</label>
+                  <select class="form-control" [(ngModel)]='resume.digitalCommunication' name='digitalCommunication'>
+                    <option value="basic">Basic user</option>
+                    <option value="independent">Independent user</option>
+                    <option value="proficient">Proficient user</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="digitalContent">Content creation</label>
+                  <select class="form-control" [(ngModel)]='resume.digitalContent' name='digitalContent'>
+                    <option value="basic">Basic user</option>
+                    <option value="independent">Independent user</option>
+                    <option value="proficient">Proficient user</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="digitalProblem">Problem solving</label>
+                  <select class="form-control" [(ngModel)]='resume.digitalProblem' name='digitalProblem'>
+                    <option value="basic">Basic user</option>
+                    <option value="independent">Independent user</option>
+                    <option value="proficient">Proficient user</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="digitalCertificate">ICT certificate</label>
+                  <input class="form-control" type="text" [(ngModel)]="resume.digitalCertificate" name="digitalCertificate" placeholder="Enter your ICT certificate">
+                </div>
+                <div class="form-group">
+                  <label for="digitalSkills">Other computer skills</label>
+                  <textarea class="form-control" [(ngModel)]='resume.digitalSkills' name='digitalSkills'></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="digitalAttachment">Attachment</label>
+                  <input class="form-control-file" type="file" [(ngModel)]="resume.digitalAttachment" name="digitalAttachment">
+                </div>
+              </div>
+            </ul>
+          </form>
+        </div>
+        <div class="card-footer">
+          <div class="float-left">
+            <button class="btn btn-primary btn-block" (click)='save()'>Save</button>
+          </div>
+          <div class="float-right">
+            <a class="d-block mt-2" routerLink='/student'>Back</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>  
 </div>
-<form>
-  <table>
-    <tr>
-      <td colspan="2"><b>Personal information</b></td>
-    </tr>
-    <br>
-    <tr>
-      <td>First name</td>
-      <td>
-        <input type='text' [(ngModel)]='resume.firstname' name='firstname'>
-      </td>
-    </tr>
-    <tr>
-      <td>Last name</td>
-      <td>
-        <input type='text' [(ngModel)]='resume.lastname' name='lastname'>
-      </td>
-    </tr>
-    <tr>
-      <td>Address</td>
-      <td>
-        <input type='text' [(ngModel)]='resume.address' name='address'>
-      </td>
-    </tr>
-    <tr>
-      <td>Zip code</td>
-      <td>
-        <input type='text' [(ngModel)]='resume.zip' name='zip'>
-      </td>
-    </tr>
-    <tr>
-      <td>City</td>
-      <td>
-        <input type='text' [(ngModel)]='resume.city' name='city'>
-      </td>
-    </tr>
-    <tr>
-      <td>Country</td>
-      <td>
-        <input type='text' [(ngModel)]='resume.country' name='country'>
-      </td>
-    </tr>
-    <tr>
-      <td>Phone</td>
-      <td>
-        <input type='text' [(ngModel)]='resume.phone' name='phone'>
-      </td>
-    </tr>
-    <tr>
-      <td>E-mail</td>
-      <td>
-        <input type='text' [(ngModel)]='resume.mail' name='mail'>
-      </td>
-    </tr>
-    <tr>
-      <td>Web site</td>
-      <td>
-        <input type='text' [(ngModel)]='resume.site' name='site'>
-      </td>
-    </tr>
-    <tr>
-      <td>Skype ID</td>
-      <td>
-        <input type='text' [(ngModel)]='resume.skype' name='skype'>
-      </td>
-    </tr>
-    <br>
-    <tr>
-      <td colspan="2"><i>Extra fields</i></td>
-    </tr>
-    <tr>
-      <td>Sex</td>
-      <td>
-        <input type='checkbox' [(ngModel)]='resume.sex' value='male'>
-        <label>Male</label>
-        <input type='checkbox' [(ngModel)]='resume.sex' value='female'>
-        <label>Female</label>
-        <input type='checkbox' [(ngModel)]='resume.sex' value='none'>
-        <label>Do not indicate</label>
-      </td>
-    </tr>
-    <tr>
-      <td>Date</td>
-      <td>
-        <input type='date' [(ngModel)]='resume.date' name='date'>
-      </td>
-    </tr>
-    <tr>
-      <td>Nationality</td>
-      <td>
-        <input type='text' [(ngModel)]='resume.nationality' name='nationality'>
-      </td>
-    </tr>
-    <br>
-    <tr>
-      <td colspan="2"><b>Type of Application</b></td>
-    </tr>
-    <br>
-    <tr>
-      <td>Type of Application</td>
-      <td>
-        <select [(ngModel)]='resume.type' name='type'>
-          <option value="job">Job applied for</option>
-          <option value="position">Position</option>
-          <option value="preferred">Preffered job</option>
-          <option value="studies">Studies applied for</option>
-          <option value="personal">Personal statement</option>
-        </select>
-      </td>
-    </tr>
-    <tr>
-      <td>Description</td>
-      <td>
-        <input type='text' [(ngModel)]='resume.description' name='description'>
-      </td>
-    </tr>
-    <br>
-    <tr>
-      <td colspan="2"><b>Education and training</b></td>
-    </tr>
-    <br>
-    <tr>
-      <td>From</td>
-      <td>
-        <input type='date' [(ngModel)]='resume.eduFrom' name='eduFrom'>
-      </td>
-    </tr>
-    <tr>
-      <td>To</td>
-      <td>
-        <input type='date' [(ngModel)]='resume.eduTo' name='eduTo'>
-      </td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>
-        <input type='checkbox' [(ngModel)]='eduOngoing' value='eduOngoing'>
-        <label>Ongoing</label>
-      </td>
-    </tr>
-    <tr>
-      <td>Date format</td>
-      <td>
-        <select [(ngModel)]='resume.eduFormat' name='eduFormat'>
-            <option value="1">DD MMM. YYYY</option>
-            <option value="2">DD/(M)M/YY</option>
-            <option value="3">DD/(M)M/YYYY</option>
-            <option value="4">DD/MM/YYYY</option>
-          </select>
-      </td>
-    </tr>
-    <tr>
-      <td>Title of qualification</td>
-      <td>
-        <input type='text' [(ngModel)]='resume.eduQualification' name='eduQualification'>
-      </td>
-    </tr>
-    <br>
-    <tr>
-      <td colspan="2"><b><i>Organisation providing education and training</i></b></td>
-    </tr>
-    <br>
-    <tr>
-      <td>Name</td>
-      <td>
-        <input type='text' [(ngModel)]='resume.orgName' name='orgName'>
-      </td>
-    </tr>
-    <tr>
-      <td>City</td>
-      <td>
-        <input type='text' [(ngModel)]='resume.orgCity' name='orgCity'>
-      </td>
-    </tr>
-    <tr>
-      <td>Country</td>
-      <td>
-        <input type='text' [(ngModel)]='resume.orgCountry' name='orgCountry'>
-      </td>
-    </tr>
-    <br>
-    <tr>
-      <td colspan="2"><i>More details</i></td>
-    </tr>
-    <tr>
-      <td>Address</td>
-      <td>
-        <input type='text' [(ngModel)]='resume.orgAddress' name='orgAddress'>
-      </td>
-    </tr>
-    <tr>
-      <td>Zip code</td>
-      <td>
-        <input type='text' [(ngModel)]='resume.orgZip' name='orgZip'>
-      </td>
-    </tr>
-    <tr>
-      <td>Web site</td>
-      <td>
-        <input type='text' [(ngModel)]='resume.orgSite' name='orgSite'>
-      </td>
-    </tr>
-    <br>
-    <tr>
-      <td>EQF level</td>
-      <td>
-        <select [(ngModel)]='resume.eqf' name='eqf'>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-          </select>
-      </td>
-    </tr>
-    <tr>
-      <td>Main subjects</td>
-      <td>
-        <textarea [(ngModel)]='resume.eduSubjects' name='eduSubjects'></textarea>
-      </td>
-    </tr>
-    <br>
-    <tr>
-      <td colspan="2"><i>Extra fields</i></td>
-    </tr>
-    <tr>
-      <td>Educational field</td>
-      <td>
-        <input type='text' [(ngModel)]='resume.eduField' name='eduField'>
-      </td>
-    </tr>
-    <br>
-    <tr>
-      <td>Attachment</td>
-      <td>
-        <input type='file' [(ngModel)]='resume.eduAttachment' name='eduAttachment'>
-      </td>
-    </tr>
-    <br>
-    <tr>
-      <td colspan="2"><b>Work expirience</b></td>
-    </tr>
-    <br>
-    <tr>
-      <td>From</td>
-      <td>
-        <input type='date' [(ngModel)]='resume.workFrom' name='workFrom'>
-      </td>
-    </tr>
-    <tr>
-      <td>To</td>
-      <td>
-        <input type='date' [(ngModel)]='resume.workTo' name='workTo'>
-      </td>
-    </tr>
-    <tr>
-      <td></td>
-      <td>
-        <input type='checkbox' [(ngModel)]='workOngoing' value='workOngoing'>
-        <label>Ongoing</label>
-      </td>
-    </tr>
-    <tr>
-      <td>Date format</td>
-      <td>
-        <select [(ngModel)]='resume.workFormat' name='workFormat'>
-            <option value="1">DD MMM. YYYY</option>
-            <option value="2">DD/(M)M/YY</option>
-            <option value="3">DD/(M)M/YYYY</option>
-            <option value="4">DD/MM/YYYY</option>
-          </select>
-      </td>
-    </tr>
-    <tr>
-      <td>Occupation or position held</td>
-      <td>
-        <input type='text' [(ngModel)]='resume.workPosition' name='workPosition'>
-      </td>
-    </tr>
-    <br>
-    <tr>
-      <td colspan="2"><b><i>Employer</i></b></td>
-    </tr>
-    <br>
-    <tr>
-      <td>Name</td>
-      <td>
-        <input type='text' [(ngModel)]='resume.empName' name='empName'>
-      </td>
-    </tr>
-    <tr>
-      <td>City</td>
-      <td>
-        <input type='text' [(ngModel)]='resume.empCity' name='empCity'>
-      </td>
-    </tr>
-    <tr>
-      <td>Country</td>
-      <td>
-        <input type='text' [(ngModel)]='resume.empCountry' name='empCountry'>
-      </td>
-    </tr>
-    <br>
-    <tr>
-      <td colspan="2"><i>More details</i></td>
-    </tr>
-    <tr>
-      <td>Address</td>
-      <td>
-        <input type='text' [(ngModel)]='resume.empAddress' name='empAddress'>
-      </td>
-    </tr>
-    <tr>
-      <td>Zip code</td>
-      <td>
-        <input type='text' [(ngModel)]='resume.empZip' name='empZip'>
-      </td>
-    </tr>
-    <tr>
-      <td>Web site</td>
-      <td>
-        <input type='text' [(ngModel)]='resume.empSite' name='empSite'>
-      </td>
-    </tr>
-    <tr>
-      <td>Business or sector</td>
-      <td>
-        <input type='text' [(ngModel)]='resume.empSector' name='empSector'>
-      </td>
-    </tr>
-    <br>
-    <tr>
-      <td>Main activities and responsabilities</td>
-      <td>
-        <textarea [(ngModel)]='resume.workActivities' name='workActivities'></textarea>
-      </td>
-    </tr>
-    <tr>
-      <td>Attachment</td>
-      <td>
-        <input type='file' [(ngModel)]='resume.workAttachment' name='workAttachment'>
-      </td>
-    </tr>
-    <br>
-    <tr>
-      <td colspan="2"><b>Personal skills</b></td>
-    </tr>
-    <br>
-    <tr>
-      <td>Mother tongue</td>
-      <td>
-        <input type='text' [(ngModel)]='resume.native' name='native'>
-      </td>
-    </tr>
-    <br>
-    <tr>
-      <td colspan="2"><b><i>Foreign language</i></b></td>
-    </tr>
-    <br>
-    <tr>
-      <td>Language</td>
-      <td>
-        <input type='text' [(ngModel)]='resume.foreignLang' name='foreignLang'>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2"><i>Understanding</i></td>
-    </tr>
-    <tr>
-      <td>Listening</td>
-      <td>
-        <select [(ngModel)]='resume.foreignListening' name='foreignListening'>
-          <option value="A1">A1</option>
-          <option value="A2">A2</option>
-          <option value="B1">B1</option>
-          <option value="B2">B2</option>
-          <option value="C1">C1</option>
-          <option value="C2">C2</option>
-        </select>
-      </td>
-    </tr>
-    <tr>
-      <td>Reading</td>
-      <td>
-        <select [(ngModel)]='resume.foreignReading' name='foreignReading'>
-          <option value="A1">A1</option>
-          <option value="A2">A2</option>
-          <option value="B1">B1</option>
-          <option value="B2">B2</option>
-          <option value="C1">C1</option>
-          <option value="C2">C2</option>
-        </select>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2"><i>Speaking</i></td>
-    </tr>
-    <tr>
-      <td>Spoken intercaction</td>
-      <td>
-        <select [(ngModel)]='resume.foreignInteraction' name='foreignInteraction'>
-          <option value="A1">A1</option>
-          <option value="A2">A2</option>
-          <option value="B1">B1</option>
-          <option value="B2">B2</option>
-          <option value="C1">C1</option>
-          <option value="C2">C2</option>
-        </select>
-      </td>
-    </tr>
-    <tr>
-      <td>Spoken production</td>
-      <td>
-        <select [(ngModel)]='resume.foreignProduction' name='foreignProduction'>
-          <option value="A1">A1</option>
-          <option value="A2">A2</option>
-          <option value="B1">B1</option>
-          <option value="B2">B2</option>
-          <option value="C1">C1</option>
-          <option value="C2">C2</option>
-        </select>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2"><i>Writing</i></td>
-    </tr>
-    <tr>
-      <td>Writing</td>
-      <td>
-        <select [(ngModel)]='resume.foreignWriting' name='foreignWriting'>
-          <option value="A1">A1</option>
-          <option value="A2">A2</option>
-          <option value="B1">B1</option>
-          <option value="B2">B2</option>
-          <option value="C1">C1</option>
-          <option value="C2">C2</option>
-        </select>
-      </td>
-    </tr>
-    <tr>
-      <td>Diploma</td>
-      <td>
-        <input type='text' [(ngModel)]='resume.foreignDiploma' name='foreignDiploma'>
-      </td>
-    </tr>
-    <tr>
-      <td>Attachment</td>
-      <td>
-        <input type='file' [(ngModel)]='resume.foreignAttachment' name='foreignAttachment'>
-      </td>
-    </tr>
-    <br>
-    <tr>
-      <td colspan="2"><b><i>Communication skills</i></b></td>
-    </tr>
-    <br>
-    <tr>
-      <td>Skills</td>
-      <td>
-        <textarea [(ngModel)]='resume.commSkills' name='commSkills'></textarea>
-      </td>
-    </tr>
-    <tr>
-      <td>Attachment</td>
-      <td>
-        <input type='file' [(ngModel)]='resume.commAttachment' name='commAttachment'>
-      </td>
-    </tr>
-    <br>
-    <tr>
-      <td colspan="2"><b><i>Organisational / managerial skills</i></b></td>
-    </tr>
-    <br>
-    <tr>
-      <td>Skills</td>
-      <td>
-        <textarea [(ngModel)]='resume.orgSkills' name='orgSkills'></textarea>
-      </td>
-    </tr>
-    <tr>
-      <td>Attachment</td>
-      <td>
-        <input type='file' [(ngModel)]='resume.orgAttachment' name='orgAttachment'>
-      </td>
-    </tr>
-    <br>
-    <tr>
-      <td colspan="2"><b><i>Job-related skills</i></b></td>
-    </tr>
-    <br>
-    <tr>
-      <td>Skills</td>
-      <td>
-        <textarea [(ngModel)]='resume.jobSkills' name='jobSkills'></textarea>
-      </td>
-    </tr>
-    <tr>
-      <td>Attachment</td>
-      <td>
-        <input type='file' [(ngModel)]='resume.jobAttachment' name='jobAttachment'>
-      </td>
-    </tr>
-    <br>
-    <tr>
-      <td colspan="2"><b><i>Digital skills</i></b></td>
-    </tr>
-    <br>
-    <tr>
-      <td colspan="2"><i>Self-assessment</i></td>
-    </tr>
-    <tr>
-      <td>Information processing</td>
-      <td>
-        <select [(ngModel)]='resume.digitalInformation' name='digitalInformation'>
-          <option value="basic">Basic user</option>
-          <option value="independent">Independent user</option>
-          <option value="proficient">Proficient user</option>
-        </select>
-      </td>
-    </tr>
-    <tr>
-      <td>Communication</td>
-      <td>
-        <select [(ngModel)]='resume.digitalCommunication' name='digitalCommunication'>
-          <option value="basic">Basic user</option>
-          <option value="independent">Independent user</option>
-          <option value="proficient">Proficient user</option>
-        </select>
-      </td>
-    </tr>
-    <tr>
-      <td>Content creation</td>
-      <td>
-        <select [(ngModel)]='resume.digitalContent' name='digitalContent'>
-          <option value="basic">Basic user</option>
-          <option value="independent">Independent user</option>
-          <option value="proficient">Proficient user</option>
-        </select>
-      </td>
-    </tr>
-    <tr>
-      <td>Problem solving</td>
-      <td>
-        <select [(ngModel)]='resume.digitalProblem' name='digitalProblem'>
-          <option value="basic">Basic user</option>
-          <option value="independent">Independent user</option>
-          <option value="proficient">Proficient user</option>
-        </select>
-      </td>
-    </tr>
-    <tr>
-      <td>ICT certificate</td>
-      <td>
-        <input type='text' [(ngModel)]='resume.digitalCertificate' name='digitalCertificate'>
-      </td>
-    </tr>
-    <tr>
-      <td>Other computer skills</td>
-      <td>
-        <textarea [(ngModel)]='resume.digitalSkills' name='digitalSkills'></textarea>
-      </td>
-    </tr>
-    <tr>
-      <td>Attachment</td>
-      <td>
-        <input type='file' [(ngModel)]='resume.digitalAttachment' name='digitalAttachment'>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <button (click)='save()'>Save</button>
-      </td>
-      <td>
-        <a routerLink='/student'>Back</a>
-      </td>
-    </tr>
-  </table>
-</form>
+<app-footer></app-footer>

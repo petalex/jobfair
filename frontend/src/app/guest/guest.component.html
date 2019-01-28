@@ -1,59 +1,75 @@
-<h3>Guest</h3>
-<h4>Search companies</h4>
-<form>
-  <table>
-    <tr>
-      <td>Name</td>
-      <td>
-        <input type='text' [(ngModel)]='name' name='name'>
-      </td>
-    </tr>
-    <tr>
-      <td>City</td>
-      <td>
-        <input type='text' [(ngModel)]='city' name='city'>
-      </td>
-    </tr>
-    <tr>
-      <td>Field</td>
-      <td>
-        <select [(ngModel)]='field' name='field'>
-          <option *ngFor="let f of fields" value="{{ f.name }}">{{ f.name }}</option>
-        </select>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <button (click)='search()'>Search</button>
-      </td>
-      <td>
-        <a routerLink='/login'>Back</a>
-      </td>
-    </tr>
-  </table>
-</form>
-<table *ngIf="companies">
-  <tr *ngIf="companies.length">
-    <th>Logo</th>
-    <th>Name</th>
-    <th>City</th>
-    <th>Address</th>
-    <th>E-mail</th>
-    <th>Web site</th>
-    <th>Field</th>
-    <th>Specialty</th>
-  </tr>
-  <tr *ngFor="let company of companies">
-    <td></td>
-    <td>{{ company.name }}</td>
-    <td>{{ company.city }}</td>
-    <td>{{ company.address }}</td>
-    <td>{{ company.mail }}</td>
-    <td>{{ company.site }}</td>
-    <td>{{ company.field }}</td>
-    <td>{{ company.specialty }}</td>
-  </tr>
-  <tr *ngIf="companies.length  === 0">
-    <td colspan="8">No companies found</td>
-  </tr>
-</table>
+<app-header type="guest"></app-header>
+<div class="alert alert-warning text-center" role="alert">
+  <strong>Guest panel</strong> You can only check out companies. For more, please <a class="alert-link" routerLink="/register">register</a> yourself!
+</div>
+<div class="container-fluid mycontainer">
+  <div class="row justify-content-md-center">
+    <div class="col-md-3">
+      <div class="card mx-auto">
+        <div class="card-header"><strong>Search companies</strong></div>
+        <div class="card-body">
+          <form name="form-search">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input class="form-control" type="text" [(ngModel)]="name" name="name" placeholder="Enter company name" autofocus>
+            </div>
+            <div class="form-group">
+              <label for="city">City</label>
+              <input class="form-control" type="text" [(ngModel)]="city" name="city" placeholder="Enter city">
+            </div>
+            <div class="form-group">
+              <label for="field">Field</label>
+              <select class="form-control" [(ngModel)]='field' name='field'>
+                <option *ngFor="let f of fields" value="{{ f.name }}">{{ f.name }}</option>
+              </select>
+            </div>
+            <button class="btn btn-primary btn-block" (click)="search()">Search</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-7">
+      <div class="card mx-auto">
+        <div class="card-header"><strong>Companies</strong></div>
+        <div class="card-body">
+          <div class="alert alert-info alert-dismissible fade show" role="alert">
+            <strong class="mx-2">Hint</strong> To get more info on particular company, just click on it.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <table class="table table-hover table-responsive text-center">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Logo</th>
+                <th scope="col">Name</th>
+                <th scope="col">City</th>
+                <th scope="col">Address</th>
+                <th scope="col">E-mail</th>
+                <th scope="col">Site</th>
+                <th scope="col">Field</th>
+                <th scope="col">Specialty</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let company of companies">
+                <td><img src="" alt="Logo" class="img-thumbnail"></td>
+                <td>{{ company.name }}</td>
+                <td>{{ company.city }}</td>
+                <td>{{ company.address }}</td>
+                <td>{{ company.mail }}</td>
+                <td>{{ company.site }}</td>
+                <td>{{ company.field }}</td>
+                <td>{{ company.specialty }}</td>
+              </tr>
+              <tr *ngIf="companies === null || companies.length  === 0">
+                <td colspan="8"><strong>No companies found</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

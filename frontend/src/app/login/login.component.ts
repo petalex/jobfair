@@ -14,11 +14,9 @@ import { Company } from '../models/company';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
-  username: String;
-
-  password: String;
   
+  username: String;
+  password: String;
   errors: String[] = [];
 
   constructor(private router: Router, private service: AuthenticationService) { }
@@ -65,5 +63,4 @@ export class LoginComponent implements OnInit {
       }
     });
   }
-
 }

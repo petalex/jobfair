@@ -15,11 +15,8 @@ import { Company } from '../models/company';
 export class ResetComponent implements OnInit {
 
   username: String;
-
   password: String;
-
   newPassword: String;
-  
   errors: String[] = [];
 
   constructor(private router: Router, private service: AuthenticationService) { }
@@ -73,5 +70,4 @@ export class ResetComponent implements OnInit {
       }
     });
   }
-
 }

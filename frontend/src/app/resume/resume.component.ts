@@ -7,9 +7,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ResumeComponent implements OnInit {
 
-  constructor() { }
+  readonly NUM_OF_SECTIONS: number = 9;
+  sections: Boolean[] = new Array(this.NUM_OF_SECTIONS).fill(false);
+
+  constructor() { 
+  }
 
   ngOnInit() {
   }
 
+  toggle(index: number) {
+    if (index < 0 || index > this.NUM_OF_SECTIONS) return;
+    this.sections[index] = !this.sections[index];
+  }
 }

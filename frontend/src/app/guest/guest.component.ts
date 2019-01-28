@@ -13,16 +13,14 @@ import { Company } from '../models/company';
 export class GuestComponent implements OnInit {
 
   fields: Field[];
-
   name: String = "";
-
   city: String = "";
-
   field: String = "";
-
   companies: Company[] = null;
 
-  constructor(private service: GuestService) { }
+  constructor(private service: GuestService) {
+    this.search();
+  }
 
   ngOnInit() {
     this.service.getFields().subscribe((fields: Field[]) => {
@@ -35,5 +33,4 @@ export class GuestComponent implements OnInit {
       this.companies = companies;
     });
   }
-
 }

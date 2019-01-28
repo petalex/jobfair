@@ -15,6 +15,8 @@ import { ResumeComponent } from './resume/resume.component';
 import { AuthenticationService } from './authentication.service';
 import { GuestService } from './guest.service';
 import { StudentService } from './student.service';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,8 @@ import { StudentService } from './student.service';
     GuestComponent,
     StudentComponent,
     ResumeComponent,
+    HeaderComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,

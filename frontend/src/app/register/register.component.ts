@@ -15,14 +15,10 @@ import { Company } from '../models/company';
 })
 export class RegisterComponent implements OnInit {
 
-  type: String = null;
-
+  type: String = "";
   types: Type[];
-
   fields: Field[];
-
   user: Student | Company; 
-
   errors: String[] = [];
 
   constructor(private router: Router, private service: AuthenticationService) { }
@@ -49,6 +45,7 @@ export class RegisterComponent implements OnInit {
         break;
       }
     }
+    this.errors = [];
   }
 
   private validateStudent() {
@@ -70,7 +67,7 @@ export class RegisterComponent implements OnInit {
         this.errors.push("Please enter valid e-mail");
       }
     }
-    if (this.user.year === undefined || this.user.year === 0) {
+    if (this.user.year === undefined) {
       this.errors.push("Please choose your year of studies");
     }
     if (this.user.profile === undefined || this.user.profile === null) {
@@ -82,25 +79,35 @@ export class RegisterComponent implements OnInit {
   private validateCompany() {
     this.user = this.user as Company;
     if (this.user.name === undefined || this.user.name === "") {
-      this.errors.push("Please enter your comapny name");
+      this.errors.push("Please enter comapny name");
     }
     if (this.user.city === undefined || this.user.city === "") {
-      this.errors.push("Please enter your city");
+      this.errors.push("Please enter city");
     }
     if (this.user.address === undefined || this.user.address === "") {
-      this.errors.push("Please enter your address");
+      this.errors.push("Please enter address");
     }
     if (this.user.executive === undefined || this.user.executive === "") {
-      this.errors.push("Please enter your executive");
+      this.errors.push("Please enter executive");
     }
-    if (this.user.taxid === undefined || this.user.taxid === 0) {
-      this.errors.push("Please enter your tax id");
+    if (this.user.taxid === undefined) {
+      this.errors.push("Please enter tax id");
+    } else {
+      let pattern = /^[0-9]+$/;
+      if (!pattern.test(this.user.taxid.toString())) {
+        this.errors.push("Tax ID must be a number");
+      }
     }
-    if (this.user.employees === undefined || this.user.employees === 0) {
-      this.errors.push("Please enter your number of employees");
+    if (this.user.employees === undefined) {
+      this.errors.push("Please enter number of employees");
+    } else {
+      let pattern = /^[0-9]+$/;
+      if (!pattern.test(this.user.employees.toString())) {
+        this.errors.push("Number of employees must be a number");
+      }
     }
     if (this.user.mail === undefined || this.user.mail === "") {
-      this.errors.push("Please enter your e-mail");
+      this.errors.push("Please enter e-mail");
     } else {
       let pattern = /^[A-Za-z][A-Za-z0-9.]*@[a-z.]+$/;
       if (!pattern.test(this.user.mail.toString())) {
@@ -108,16 +115,16 @@ export class RegisterComponent implements OnInit {
       }
     }
     if (this.user.site === undefined || this.user.site === "") {
-      this.errors.push("Please enter your web site");
+      this.errors.push("Please enter web site");
     }
     if (this.user.field === undefined || this.user.field === "") {
-      this.errors.push("Please choose your field");
+      this.errors.push("Please choose field");
     }
     if (this.user.specialty === undefined || this.user.specialty === "") {
-      this.errors.push("Please enter your specialty");
+      this.errors.push("Please enter specialty");
     }
     if (this.user.logo === undefined || this.user.logo === null) {
-      this.errors.push("Please upload your logo");
+      this.errors.push("Please upload company logo");
     }
     return this.errors.length == 0;
   }
@@ -168,5 +175,4 @@ export class RegisterComponent implements OnInit {
       }
     });
   }
-
 }

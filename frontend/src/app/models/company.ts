@@ -2,30 +2,30 @@ export class Company {
 
     type: String = "company";
 
-    username: String = "";
+    username: String;
 
-    password: String = "";
+    password: String;
 
-    name: String = "";
+    name: String;
 
-    city: String = "";
+    city: String;
 
-    address: String = "";
+    address: String;
 
-    executive: String = "";
+    executive: String;
 
-    taxid: Number = 0;
+    taxid: Number;
 
-    employees: Number = 0;
+    employees: Number;
 
-    mail: String = "";
+    mail: String;
 
-    site: String = "";
+    site: String;
 
-    field: String = "";
+    field: String;
 
-    specialty: String = "";
+    specialty: String;
 
-    logo: String = null;
+    logo: String;
     
 }
