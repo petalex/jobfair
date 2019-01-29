@@ -12,18 +12,22 @@ const uri: String = "http://localhost:4000";
 })
 export class AuthenticationService {
 
+  user: Student | Company | Admin;
+
   constructor(private http: HttpClient) { }
 
   setCurrentUser(user: Student | Admin | Company) {
+    this.user = user;
     sessionStorage.setItem("username", user.username.toString());
   }
 
   getCurrentUser() {
-    // TO-DO: Find the user
-    return sessionStorage.getItem("username");
+    if (sessionStorage.getItem("username") === null) return null;
+    return this.user;
   }
 
   removeCurrentUser() {
+    this.user = null;
     sessionStorage.removeItem("username");
   }
 
@@ -48,6 +52,18 @@ export class AuthenticationService {
       user: user
     };
     return this.http.post(uri + '/register', data);
+  }
+
+  uploadImage(user: Student | Company, image: File) {
+    const formData: FormData = new FormData();
+    formData.append("username", user.username.toString());
+    formData.append("type", user.type.toString());
+    formData.append("image", image);
+    return this.http.post(uri + '/upload/image', formData);
+  }
+
+  getImageURI(imagePath: String) {
+    return uri + "/" +  imagePath;
   }
 
   reset(username: String, password: String, newPassword: String) {

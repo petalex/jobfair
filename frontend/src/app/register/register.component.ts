@@ -18,7 +18,8 @@ export class RegisterComponent implements OnInit {
   type: String = "";
   types: Type[];
   fields: Field[];
-  user: Student | Company; 
+  user: Student | Company;
+  image: File;
   errors: String[] = [];
 
   constructor(private router: Router, private service: AuthenticationService) { }
@@ -46,6 +47,10 @@ export class RegisterComponent implements OnInit {
       }
     }
     this.errors = [];
+  }
+
+  selectImage(event) {
+    this.image = event.target.files[0];
   }
 
   private validateStudent() {
@@ -169,10 +174,16 @@ export class RegisterComponent implements OnInit {
     if (!this.validate()) return;
     this.service.register(this.user).subscribe((user: Student | Company) => {
       if (user) {
-        this.router.navigate(["/login"]);
+        this.service.uploadImage(user, this.image).subscribe((user: Student | Company) => {
+          if (user) {
+            this.router.navigate(["/login"]);
+          } else {
+            this.errors.push("Image upload failed");
+          }
+        });
       } else {
         this.errors.push("Username already exists");
       }
     });
-  }
+  }  
 }

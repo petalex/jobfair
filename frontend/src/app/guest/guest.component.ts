@@ -17,6 +17,7 @@ export class GuestComponent implements OnInit {
   city: String = "";
   field: String = "";
   companies: Company[] = null;
+  company: Company = null;
 
   constructor(private service: GuestService) {
     this.search();
@@ -32,5 +33,9 @@ export class GuestComponent implements OnInit {
     this.service.getCompanies(this.name, this.city, this.field).subscribe((companies: Company[]) => {
       this.companies = companies;
     });
+  }
+
+  selectCompany(company: Company) {
+    this.company = company;
   }
 }

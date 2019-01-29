@@ -26,6 +26,6 @@ export class Company {
 
     specialty: String;
 
-    logo: String;
+    logo: Buffer;
     
 }

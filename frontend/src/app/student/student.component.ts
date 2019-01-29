@@ -4,6 +4,10 @@ import { Router } from '@angular/router';
 import { StudentService } from '../student.service';
 import { AuthenticationService } from '../authentication.service';
 
+import { Student } from '../models/student';
+import { Company } from '../models/company';
+import { Admin } from '../models/admin';
+
 @Component({
   selector: 'app-student',
   templateUrl: './student.component.html',
@@ -11,14 +15,11 @@ import { AuthenticationService } from '../authentication.service';
 })
 export class StudentComponent implements OnInit {
 
-  username: String;
+  user: Student | Company | Admin;
 
   constructor(private router: Router, private studentService: StudentService, private authService: AuthenticationService) { }
 
   ngOnInit() {
-    this.username = this.authService.getCurrentUser();
-    if (this.username == null) {
-      this.router.navigate(["/"]);
-    }
+    this.user = this.authService.getCurrentUser();
   }
 }

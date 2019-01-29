@@ -20,7 +20,7 @@ let Admin = new Schema({
         type: String
     },
     profile: {
-        type: Buffer
+        type: String
     }
 }, {
     discriminatorKey: 'type'

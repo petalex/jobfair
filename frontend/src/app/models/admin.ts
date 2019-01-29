@@ -14,6 +14,6 @@ export class Admin {
 
     mail: String;
 
-    profile: String;
+    profile: Buffer;
     
 }

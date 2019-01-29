@@ -26,7 +26,7 @@ let Student = new Schema({
         type: Boolean
     },
     profile: {
-        type: Buffer
+        type: String
     }
 }, {
     discriminatorKey: 'type'

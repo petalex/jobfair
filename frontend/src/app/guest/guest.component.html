@@ -38,35 +38,72 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <table class="table table-hover table-responsive text-center">
+          <table class="table table-hover text-center">
             <thead class="thead-dark">
-              <tr>
-                <th scope="col">Logo</th>
-                <th scope="col">Name</th>
-                <th scope="col">City</th>
-                <th scope="col">Address</th>
-                <th scope="col">E-mail</th>
-                <th scope="col">Site</th>
-                <th scope="col">Field</th>
-                <th scope="col">Specialty</th>
+              <tr class="row">
+                <th scope="col" class="col">Logo</th>
+                <th scope="col" class="col">Name</th>
+                <th scope="col" class="col">Field</th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let company of companies">
-                <td><img src="" alt="Logo" class="img-thumbnail"></td>
-                <td>{{ company.name }}</td>
-                <td>{{ company.city }}</td>
-                <td>{{ company.address }}</td>
-                <td>{{ company.mail }}</td>
-                <td>{{ company.site }}</td>
-                <td>{{ company.field }}</td>
-                <td>{{ company.specialty }}</td>
+              <tr *ngFor="let c of companies" class="row" data-toggle="modal" data-target="#mymodal" (click)="selectCompany(c)">
+                <td class="col"><img src="" alt="Logo" class="img-thumbnail"></td>
+                <td class="col">{{ c.name }}</td>
+                <td class="col">{{ c.field }}</td>
               </tr>
-              <tr *ngIf="companies === null || companies.length  === 0">
-                <td colspan="8"><strong>No companies found</strong></td>
+              <tr *ngIf="companies === null || companies.length  === 0" class="row">
+                <td colspan="3" class="col"><strong>No companies found</strong></td>
               </tr>
             </tbody>
           </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Company info modal -->
+<div *ngIf="company !== null" class="modal fade" id="mymodal" tabindex="-1" role="dialog" aria-labelledby="mylabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="mylabel">{{ company.name }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+        <div class="row">
+          <div class="col"><img src="" alt="Logo" class="img-thumbnail"></div>
+          <div class="col"><h3>{{ company.name }}</h3></div>
+        </div>
+        <div class="row"><div class="col"><br /></div></div>
+        <div class="row">
+          <div class="col"><h4>General info</h4></div>
+        </div>
+        <div class="row ml-1">
+          <div class="col-5"><strong>City</strong></div>
+          <div class="col-7">{{ company.city }}</div>
+        </div>
+        <div class="row ml-1">
+          <div class="col-5"><strong>Address</strong></div>
+          <div class="col-7">{{ company.address }}</div>
+        </div>
+        <div class="row ml-1">
+          <div class="col-5"><strong>E-mail</strong></div>
+          <div class="col-7">{{ company.mail }}</div>
+        </div>
+        <div class="row ml-1">
+          <div class="col-5"><strong>Web site</strong></div>
+          <div class="col-7">{{ company.site }}</div>
+        </div>
+        <div class="row ml-1">
+          <div class="col-5"><strong>Field</strong></div>
+          <div class="col-7">{{ company.field }}</div>
+        </div>
+        <div class="row ml-1">
+          <div class="col-5"><strong>Specialty</strong></div>
+          <div class="col-7">{{ company.specialty }}</div>
         </div>
       </div>
     </div>

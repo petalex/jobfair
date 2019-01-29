@@ -31,7 +31,10 @@
         <span>&#124;</span>
       </li>
       <li class="nav-item mytext">
-        <span>Welcome {{ name | titlecase }}</span>
+        <span>Welcome {{ user.username | titlecase }}</span>
+      </li>
+      <li class="nav-item">
+        <span><img [src]="imageSrc" alt="Image" class="myicon" ></span>
       </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="#"(click)="logout()">Logout</a>

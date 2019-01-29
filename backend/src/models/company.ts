@@ -36,7 +36,7 @@ let Company = new Schema(
             type: String
         },
         logo: {
-            type: Buffer
+            type: String
         }
     },
     {

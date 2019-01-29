@@ -16,6 +16,10 @@ connection.once('open', () => {
     console.log('[Server] Succesfully connected to Mongo.');
 });
 const router = express_1.default.Router();
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
+app.use('/uploads', express_1.default.static('uploads'));
+;
 const user_1 = __importDefault(require("./models/user"));
 const student_1 = __importDefault(require("./models/student"));
 const company_1 = __importDefault(require("./models/company"));
@@ -38,9 +42,7 @@ router.route('/fields').get((req, res) => {
     });
 });
 router.route('/login').post((req, res) => {
-    let username = req.body.username;
-    let password = req.body.password;
-    user_1.default.findOne({ 'username': username, 'password': password }, (err, user) => {
+    user_1.default.findOne({ 'username': req.body.username, 'password': req.body.password }, (err, user) => {
         if (err)
             console.log(err);
         else
@@ -56,20 +58,20 @@ router.route('/register').post((req, res) => {
         else {
             switch (req.body.user.type) {
                 case "student": {
-                    student_1.default.create([req.body.user], (err, student) => {
+                    student_1.default.create([req.body.user], (err, students) => {
                         if (err)
                             console.log(err);
                         else
-                            res.json(student);
+                            res.json(students[0]);
                     });
                     break;
                 }
                 case "company": {
-                    company_1.default.create([req.body.user], (err, company) => {
+                    company_1.default.create([req.body.user], (err, companies) => {
                         if (err)
                             console.log(err);
                         else
-                            res.json(company);
+                            res.json(companies[0]);
                     });
                     break;
                 }
@@ -81,11 +83,30 @@ router.route('/register').post((req, res) => {
         }
     });
 });
+router.route('/upload/image').post(upload.single('image'), (req, res) => {
+    switch (req.body.type) {
+        case "student": {
+            student_1.default.findOneAndUpdate({ 'username': req.body.username }, { $set: { 'profile': req.file.path } }, (err, student) => {
+                if (err)
+                    console.log(err);
+                else
+                    res.json(student);
+            });
+            break;
+        }
+        case "company": {
+            company_1.default.findOneAndUpdate({ 'username': req.body.username }, { $set: { 'logo': req.file.path } }, (err, company) => {
+                if (err)
+                    console.log(err);
+                else
+                    res.json(company);
+            });
+            break;
+        }
+    }
+});
 router.route('/reset').post((req, res) => {
-    let username = req.body.username;
-    let password = req.body.password;
-    let newPassword = req.body.newPassword;
-    user_1.default.findOneAndUpdate({ 'username': username, 'password': password }, { $set: { 'password': newPassword } }, (err, user) => {
+    user_1.default.findOneAndUpdate({ 'username': req.body.username, 'password': req.body.password }, { $set: { 'password': req.body.password } }, (err, user) => {
         if (err)
             console.log(err);
         else

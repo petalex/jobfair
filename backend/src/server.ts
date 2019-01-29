@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request } from 'express';
 import cors from 'cors';
 import bodyParser, { json } from 'body-parser';
 import mongoose from 'mongoose';
@@ -17,6 +17,15 @@ connection.once('open', () => {
 });
 
 const router = express.Router();
+
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
+app.use('/uploads', express.static('uploads'));
+
+interface FileRequest extends Request {
+    username: String;
+    file: any;
+};
 
 import User from './models/user';
 import Student from './models/student';
@@ -40,9 +49,7 @@ router.route('/fields').get((req, res) => {
 });
 
 router.route('/login').post((req, res) => {
-    let username = req.body.username;
-    let password = req.body.password;
-    User.findOne({ 'username': username, 'password': password }, (err, user) => {
+    User.findOne({ 'username': req.body.username, 'password': req.body.password }, (err, user) => {
         if (err) console.log(err);
         else res.json(user);
     });
@@ -55,16 +62,16 @@ router.route('/register').post((req, res) => {
         else {
             switch (req.body.user.type) {
                 case "student": {
-                    Student.create([req.body.user], (err, student) => {
+                    Student.create([req.body.user], (err, students) => {
                         if (err) console.log(err);
-                        else res.json(student);
+                        else res.json(students[0]);
                     });
                     break;
                 }
                 case "company": {
-                    Company.create([req.body.user], (err, company) => {
+                    Company.create([req.body.user], (err, companies) => {
                         if (err) console.log(err);
-                        else res.json(company);
+                        else res.json(companies[0]);
                     });
                     break;
                 }
@@ -77,11 +84,27 @@ router.route('/register').post((req, res) => {
     });
 });
 
+router.route('/upload/image').post(upload.single('image'), (req: FileRequest, res) => {
+    switch (req.body.type) {
+        case "student": {
+            Student.findOneAndUpdate({ 'username': req.body.username}, { $set: { 'profile': req.file.path } }, (err, student) => {
+                if (err) console.log(err);
+                else res.json(student);
+            });
+            break;
+        }
+        case "company": {
+            Company.findOneAndUpdate({ 'username': req.body.username}, { $set: { 'logo': req.file.path } }, (err, company) => {
+                if (err) console.log(err);
+                else res.json(company);
+            });
+            break;
+        }
+    }
+});
+
 router.route('/reset').post((req, res) => {
-    let username = req.body.username;
-    let password = req.body.password;
-    let newPassword = req.body.newPassword;
-    User.findOneAndUpdate({ 'username': username, 'password': password }, { $set: { 'password': newPassword } }, (err, user) => {
+    User.findOneAndUpdate({ 'username': req.body.username, 'password': req.body.password }, { $set: { 'password': req.body.password } }, (err, user) => {
         if (err) console.log(err);
         else res.json(user);
     });
