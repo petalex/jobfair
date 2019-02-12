@@ -1,0 +1,251 @@
+<app-header type="student"></app-header>
+<div class="container-fluid mycontainer">
+  <div class="row justify-content-md-center">
+    <div class="col-xl-3">
+      <div class="card mx-auto">
+        <div class="card-header"><strong>Search companies and contests</strong></div>
+        <div class="card-body">
+          <form name="form-search">
+            <div class="form-group">
+              <label for="type">Contest type</label>
+              <select multiple class="form-control" [(ngModel)]='types' name='type'>
+                <option value="job">Job contest</option>
+                <option value="internship">Internship contest</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="name">Company name</label>
+              <input class="form-control" type="text" [(ngModel)]="name" name="name" placeholder="Enter company name" autofocus>
+            </div>
+            <div class="form-group">
+              <label for="title">Contest title</label>
+              <input class="form-control" type="text" [(ngModel)]="title" name="title" placeholder="Enter contest name">
+            </div>
+            <button class="btn btn-primary btn-block" (click)="search()">Search</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4">
+      <div class="card mx-auto">
+        <div class="card-header"><strong>Companies</strong></div>
+        <div class="card-body m-3">
+          <div class="alert alert-info alert-dismissible fade show" role="alert">
+            <strong class="mx-2">Hint</strong> Click on company to get more info.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <table class="table table-hover text-center">
+            <thead class="thead-dark">
+              <tr class="row">
+                <th scope="col" class="col">Logo</th>
+                <th scope="col" class="col">Name</th>
+                <th scope="col" class="col">Field</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let c of companies" class="row" data-toggle="modal" data-target="#myCompanyModal" (click)="selectCompany(c)">
+                <td class="col align-self-center"><img [src]="c.logo" alt="Logo" class="img-thumbnail myicon"></td>
+                <td class="col">{{ c.name }}</td>
+                <td class="col">{{ c.field }}</td>
+              </tr>
+              <tr *ngIf="companies === null || companies.length  === 0" class="row">
+                <td colspan="3" class="col"><strong>No companies found</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-4">
+      <div class="card mx-auto">
+        <div class="card-header"><strong>Contests</strong></div>
+        <div class="card-body m-3">
+          <div class="alert alert-info alert-dismissible fade show" role="alert">
+            <strong class="mx-2">Hint</strong> Click on contest to get more info.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <table class="table table-hover text-center">
+            <thead class="thead-dark">
+              <tr class="row">
+                <th scope="col" class="col">Title</th>
+                <th scope="col" class="col">Company</th>
+                <th scope="col" class="col">Deadline</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let c of contests" class="row" data-toggle="modal" data-target="#myContestModal" (click)="selectContest(c)">
+                <td class="col">{{ c.title }}</td>
+                <td class="col">{{ c.company }}</td>
+                <td class="col">{{ c.deadline | date:'mediumDate' }}</td>
+              </tr>
+              <tr *ngIf="contests === null || contests.length  === 0" class="row">
+                <td colspan="3" class="col"><strong>No contests found</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Company info modal -->
+<div *ngIf="company !== null" class="modal fade" id="myCompanyModal" tabindex="-1" role="dialog" aria-labelledby="mylabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="mylabel">Company {{ company.name }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+        <div class="row">
+          <div class="col">
+            <div class="row mb-1">
+              <div class="col"><h5>General info</h5></div>
+            </div>
+            <div class="row ml-1 mb-1">
+              <div class="col"><strong>City</strong></div>
+              <div class="col">{{ company.city }}</div>
+            </div>
+            <div class="row ml-1 mb-1">
+              <div class="col"><strong>Address</strong></div>
+              <div class="col">{{ company.address }}</div>
+            </div>
+            <div class="row ml-1 mb-1">
+              <div class="col"><strong>E-mail</strong></div>
+              <div class="col">{{ company.mail }}</div>
+            </div>
+            <div class="row ml-1 mb-1">
+              <div class="col"><strong>Web site</strong></div>
+              <div class="col">{{ company.site }}</div>
+            </div>
+            <div class="row ml-1 mb-1">
+              <div class="col"><strong>Field</strong></div>
+              <div class="col">{{ company.field }}</div>
+            </div>
+            <div class="row ml-1">
+              <div class="col"><strong>Specialty</strong></div>
+              <div class="col">{{ company.specialty }}</div>
+            </div>
+          </div>
+          <div class="col-md-4 text-center align-self-center">
+            <img [src]="company.logo" alt="Logo" class="img-thumbnail mylogo">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <h5 class=" mt-4 mb-3">Company contests</h5>
+            <table class="table table-hover text-center">
+              <thead class="thead-dark">
+                <tr class="row">
+                  <th scope="col" class="col">Title</th>
+                  <th scope="col" class="col">Company</th>
+                  <th scope="col" class="col">Deadline</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let c of companyContests" class="row">
+                  <td class="col">{{ c.title }}</td>
+                  <td class="col">{{ c.company }}</td>
+                  <td class="col">{{ c.deadline | date:'mediumDate' }}</td>
+                </tr>
+                <tr *ngIf="companyContests === null || companyContests.length  === 0" class="row">
+                  <td colspan="3" class="col"><strong>No contests found for this company</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Contest info modal -->
+<div *ngIf="contest !== null" class="modal fade" id="myContestModal" tabindex="-1" role="dialog" aria-labelledby="mylabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="mylabel">Contest {{ contest.title }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="resetParticipant()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body m-3">
+        <div class="row">
+          <div class="col">
+            <div class="row mb-1">
+              <div class="col"><h5>General info</h5></div>
+            </div>
+            <div class="row ml-1 mb-2">
+              <div class="col-4"><strong>Company</strong></div>
+              <div class="col text-center">{{ contest.company }}</div>
+            </div>
+            <div class="row ml-1 mb-2">
+              <div class="col"><strong>Description</strong></div>
+            </div>
+            <div class="row ml-1 mb-4">
+              <div class="col">{{ contest.info }}</div>
+            </div>
+            <div class="row ml-1 mb-4">
+              <div class="col-4"><strong>Deadline</strong></div>
+              <div class="col text-center">{{ contest.deadline | date:'mediumDate' }} {{ contest.deadline | date:'shortTime' }}</div>
+            </div>
+            <div class="row ml-1 mb-2">
+              <div class="col"><strong>Additional files</strong></div>
+            </div>
+            <div class="row text-center">
+              <div class="col">
+                <a *ngFor="let file of contest.files" [href]="file">{{ file }}</a>
+                <p *ngIf="contest.files === null || contest.files.length  === 0">No files attached</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5 ml-2">
+            <div class="row mb-1">
+              <div class="col"><h5>Apply</h5></div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <form name="form-search">
+                    <div class="row">
+                      <div class="col"><h6>Resume</h6></div>
+                      <div class="col-3"><span (click)="loadFromResume()">Fill out</span></div>
+                    </div>
+                    <div class="form-group">
+                      <label for="firstname">First name</label>
+                      <input class="form-control" type="text" [(ngModel)]="participant.firstname" name="firstname" placeholder="Enter your first name" autofocus>
+                    </div>
+                    <div class="form-group">
+                      <label for="lastname">Last name</label>
+                      <input class="form-control" type="text" [(ngModel)]="participant.lastname" name="lastname" placeholder="Enter your last name" autofocus>
+                    </div>
+                    <div class="form-group">
+                      <label for="phone">Phone</label>
+                      <input class="form-control" type="text" [(ngModel)]="participant.phone" name="phone" placeholder="Enter your phone">
+                    </div>
+                    <div class="form-group">
+                      <label for="mail">E-mail</label>
+                      <input class="form-control" type="text" [(ngModel)]="participant.mail" name="mail" placeholder="Enter your e-mail" autofocus>
+                    </div>
+                    <h6>Cover letter</h6>
+                    <div class="form-group">
+                      <textarea class="form-control" [(ngModel)]='participant.cover' name='covertext'></textarea>
+                      <p>or</p>
+                      <input class="form-control-file" type="file" [(ngModel)]="coverpdf" name="coverpdf">
+                    </div>
+                    <button class="btn btn-primary btn-block" data-dismiss="modal" (click)="apply()">Apply</button>
+                  </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

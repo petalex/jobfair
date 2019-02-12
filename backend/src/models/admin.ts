@@ -1,29 +1,28 @@
 import mongoose from 'mongoose';
-import User from './user';
+import User, { UserInterface } from './user';
 
 const Schema = mongoose.Schema;
 
-let Admin = new Schema(
+let AdminSchema = new Schema(
     {
-        firstname: {
-            type: String
-        },
-        lastname: {
-            type: String
-        },
-        phone: {
-            type: String
-        },
-        mail: {
-            type: String
-        },
-        profile: {
-            type: String
-        }
+        firstname: { type: String },
+        lastname: { type: String },
+        phone: { type: String },
+        mail: { type: String },
+        profile: { type: String }
     }, 
     {
         discriminatorKey: 'type'
     }
 );
 
-export default User.discriminator('admin', Admin);
+export interface AdminInterface extends UserInterface {
+    firstname: String;
+    lastname: String;
+    phone: String;
+    mail: String;
+    profile: String;
+}
+
+export const Admin = User.discriminator<AdminInterface>('admin', AdminSchema);
+export default Admin;

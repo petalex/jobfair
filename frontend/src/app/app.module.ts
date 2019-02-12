@@ -17,6 +17,9 @@ import { GuestService } from './guest.service';
 import { StudentService } from './student.service';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { CompanyContestSearchComponent } from './company-contest-search/company-contest-search.component';
+import { StudentContestsComponent } from './student-contests/student-contests.component';
+import { StudentCompanyRatingComponent } from './student-company-rating/student-company-rating.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +32,9 @@ import { FooterComponent } from './footer/footer.component';
     ResumeComponent,
     HeaderComponent,
     FooterComponent,
+    CompanyContestSearchComponent,
+    StudentContestsComponent,
+    StudentCompanyRatingComponent,
   ],
   imports: [
     BrowserModule,

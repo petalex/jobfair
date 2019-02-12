@@ -30,7 +30,7 @@ interface FileRequest extends Request {
 import User from './models/user';
 import Student from './models/student';
 import Admin from './models/admin';
-import Company from './models/company';
+import Company, { ContestInterface, CompanyInterface } from './models/company';
 import Field from './models/field';
 import Type from './models/type';
 
@@ -110,14 +110,115 @@ router.route('/reset').post((req, res) => {
     });
 });
 
-router.route('/companies').post((req, res) => {
-    let conditions = JSON.parse(JSON.stringify(req.body, (key, value) => {
-        if (value == "" || value == null) return undefined;
-        return value;
-    }));
+router.route('/guest/companies').post((req, res) => {
+    interface Conditions {
+        name?: RegExp,
+        city?: RegExp,
+        field?: Array<String>
+    }
+    let conditions: Conditions = {};
+    if (req.body.name != "" && req.body.name != null) {
+        conditions.name = new RegExp(".*" + req.body.name + ".*$");
+    }
+    if (req.body.city != "" && req.body.city != null) {
+        conditions.city = new RegExp(".*" + req.body.city + ".*$");
+    }
+    if (req.body.fields != [] && req.body.fields != null) {
+        conditions.field = req.body.fields;
+    }
     Company.find(conditions, (err, companies) => {
         if (err) console.log(err);
         else res.json(companies);
+    });
+});
+
+router.route('/student/resume').post((req, res) => {
+    Student.findOne({ username: req.body.username }, (err, student) => {
+        if (err) console.log(err);
+        else res.json(student.resume);
+    });
+});
+
+router.route('/student/resume/save').post((req, res) => {
+    Student.findOneAndUpdate({ username: req.body.username }, { $set: { 'resume': req.body.resume } }, (err, student) => {
+        if (err) console.log(err);
+        else res.json(student);
+    });
+});
+
+router.route('/student/companies').post((req, res) => {
+    interface Conditions {
+        name?: RegExp
+    }
+    let conditions: Conditions = {};
+    if (req.body.name != "" && req.body.name != null) {
+        conditions.name = new RegExp(".*" + req.body.name + ".*$");
+    }
+    Company.find(conditions, (err, companies) => {
+        if (err) console.log(err);
+        else res.json(companies);
+    });
+});
+
+router.route('/student/contests').post((req, res) => {
+    interface Conditions {
+        name?: RegExp
+    }
+    let conditions: Conditions = {};
+    if (req.body.name != "" && req.body.name != null) {
+        conditions.name = new RegExp(".*" + req.body.name + ".*$");
+    }
+    Company.find(conditions, (err, companies) => {
+        if (err) console.log(err);
+        else {
+            let contests: ContestInterface[] = [];
+            let titleRexExp = new RegExp(".*" + req.body.title + ".*$");
+            for (let company of companies) {
+                for (let contest of company.contests) {
+                    if (req.body.types.includes(contest.type) && titleRexExp.test(contest.title.toString())) {
+                        contests.push(contest);
+                    }
+                }
+            }
+            res.json(contests);
+        }
+    });
+});
+
+router.route('/student/contest/apply').post((req, res) => {
+    Company.findOneAndUpdate(
+        { 
+            name: req.body.contest.company, 
+            "contests.type": req.body.contest.type, 
+            "contests.title": req.body.contest.title, 
+            //"contests.deadline": req.body.contest.deadline  
+        },
+        { $set: { 'contests.$.participants': req.body.contest.participants } },
+        { new: true },
+        (err, company) => {
+            if (err) console.log(err);
+            else res.json(company);
+        }
+    );
+});
+
+router.route('/student/contests/applied').post((req, res) => {
+    Company.find({ }, (err, companies) => {
+        if (err) console.log(err);
+        else {
+            let contests: ContestInterface[] = [];
+            for (let company of companies) {
+                for (let contest of company.contests) {
+                    for (let partitipant of contest.participants) {
+                        if (partitipant.username === req.body.username) {
+                            contests.push(contest);
+                            break;
+                        }
+                    }
+                }
+            }
+            res.json(contests);
+        }
     });
 });
 

@@ -24,11 +24,26 @@ export class HeaderComponent implements OnInit {
     this.user = this.service.getCurrentUser();
     if (this.user == null) {
       if (this.type !== "welcome" && this.type !== "guest") {
+        // Only logged users can access their pages
         this.router.navigate(["/"]);
       }
     } else {
-      let student = this.user as Student;
-      this.imageSrc = this.service.getImageURI(student.profile);
+      if (this.user.type === this.type) {
+        if (this.user.type == "student") {
+          let student = this.user as Student;
+          this.imageSrc = this.service.getImageURI(student.profile);
+        } else if (this.user.type == "company") {
+          let company = this.user as Company;
+          this.imageSrc = this.service.getImageURI(company.logo);
+        } else if (this.user.type == "admin") {
+          let admin = this.user as Admin;
+          this.imageSrc = this.service.getImageURI(admin.profile);
+        }
+      } else {
+        // Logged user can only access pages for their user type
+        this.service.removeCurrentUser();
+        this.router.navigate(["/"]);
+      }
     }
   }
 

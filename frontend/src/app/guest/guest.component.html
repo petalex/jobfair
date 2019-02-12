@@ -19,7 +19,7 @@
             </div>
             <div class="form-group">
               <label for="field">Field</label>
-              <select class="form-control" [(ngModel)]='field' name='field'>
+              <select multiple class="form-control" [(ngModel)]='selectedFields' name='field'>
                 <option *ngFor="let f of fields" value="{{ f.name }}">{{ f.name }}</option>
               </select>
             </div>
@@ -31,7 +31,7 @@
     <div class="col-md-7">
       <div class="card mx-auto">
         <div class="card-header"><strong>Companies</strong></div>
-        <div class="card-body">
+        <div class="card-body m-3">
           <div class="alert alert-info alert-dismissible fade show" role="alert">
             <strong class="mx-2">Hint</strong> To get more info on particular company, just click on it.
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -48,7 +48,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let c of companies" class="row" data-toggle="modal" data-target="#mymodal" (click)="selectCompany(c)">
-                <td class="col"><img src="" alt="Logo" class="img-thumbnail"></td>
+                <td class="col align-self-center"><img [src]="c.logo" alt="Logo" class="img-thumbnail myicon"></td>
                 <td class="col">{{ c.name }}</td>
                 <td class="col">{{ c.field }}</td>
               </tr>
@@ -64,46 +64,48 @@
 </div>
 <!-- Company info modal -->
 <div *ngIf="company !== null" class="modal fade" id="mymodal" tabindex="-1" role="dialog" aria-labelledby="mylabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="mylabel">{{ company.name }}</h5>
+        <h5 class="modal-title" id="mylabel">Company {{ company.name }}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body m-3">
         <div class="row">
-          <div class="col"><img src="" alt="Logo" class="img-thumbnail"></div>
-          <div class="col"><h3>{{ company.name }}</h3></div>
-        </div>
-        <div class="row"><div class="col"><br /></div></div>
-        <div class="row">
-          <div class="col"><h4>General info</h4></div>
-        </div>
-        <div class="row ml-1">
-          <div class="col-5"><strong>City</strong></div>
-          <div class="col-7">{{ company.city }}</div>
-        </div>
-        <div class="row ml-1">
-          <div class="col-5"><strong>Address</strong></div>
-          <div class="col-7">{{ company.address }}</div>
-        </div>
-        <div class="row ml-1">
-          <div class="col-5"><strong>E-mail</strong></div>
-          <div class="col-7">{{ company.mail }}</div>
-        </div>
-        <div class="row ml-1">
-          <div class="col-5"><strong>Web site</strong></div>
-          <div class="col-7">{{ company.site }}</div>
-        </div>
-        <div class="row ml-1">
-          <div class="col-5"><strong>Field</strong></div>
-          <div class="col-7">{{ company.field }}</div>
-        </div>
-        <div class="row ml-1">
-          <div class="col-5"><strong>Specialty</strong></div>
-          <div class="col-7">{{ company.specialty }}</div>
+          <div class="col">
+            <div class="row mb-1">
+              <div class="col"><h5>General info</h5></div>
+            </div>
+            <div class="row ml-1">
+              <div class="col"><strong>City</strong></div>
+              <div class="col">{{ company.city }}</div>
+            </div>
+            <div class="row ml-1">
+              <div class="col"><strong>Address</strong></div>
+              <div class="col">{{ company.address }}</div>
+            </div>
+            <div class="row ml-1">
+              <div class="col"><strong>E-mail</strong></div>
+              <div class="col">{{ company.mail }}</div>
+            </div>
+            <div class="row ml-1">
+              <div class="col"><strong>Web site</strong></div>
+              <div class="col">{{ company.site }}</div>
+            </div>
+            <div class="row ml-1">
+              <div class="col"><strong>Field</strong></div>
+              <div class="col">{{ company.field }}</div>
+            </div>
+            <div class="row ml-1">
+              <div class="col"><strong>Specialty</strong></div>
+              <div class="col">{{ company.specialty }}</div>
+            </div>
+          </div>
+          <div class="col-4 align-self-center">
+            <img [src]="company.logo" alt="Logo" class="img-thumbnail mylogo">
+          </div>
         </div>
       </div>
     </div>
